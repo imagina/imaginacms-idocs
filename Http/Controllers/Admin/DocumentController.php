@@ -5,12 +5,15 @@ namespace Modules\Idocs\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
+use Modules\Idocs\Imports\IdocsImport;
 use Modules\Idocs\Entities\Document;
 use Modules\Idocs\Http\Requests\CreateDocumentRequest;
 use Modules\Idocs\Http\Requests\UpdateDocumentRequest;
 use Modules\Idocs\Repositories\CategoryRepository;
 use Modules\Idocs\Repositories\DocumentRepository;
 use Modules\User\Repositories\UserRepository;
+//External libraries
+use Maatwebsite\Excel\Facades\Excel;
 
 class DocumentController extends AdminBaseController
 {
@@ -144,4 +147,48 @@ class DocumentController extends AdminBaseController
 
         }
     }
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function migration()
+    {
+        $locale=\LaravelLocalization::getSupportedLocales();
+
+        return view('idocs::admin.documents.migration',compact('locale'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function import(Request $request)
+    {
+        \DB::beginTransaction();
+        try {
+            dd($request->file);
+            $data=$request->all();
+            $user=\Auth::user();
+            $data = ['user_id' => $user->id, 'Locale'=>\LaravelLocalization::setLocale() ?: \App::getLocale()];
+            $data_excel = Excel::import(new IdocsImport($this->document,$data), $request->file);
+
+            dd($data_excel);
+            \DB::commit();//Commit to Data Base
+            return redirect()->route('admin.idocs.document.index')
+                ->withSuccess(trans('idocs::common.messages.resource created', ['name' => trans('idocs::documents.title.documents')]));
+        } catch (\Exception $e) {
+            dd($e);
+            \DB::rollback();
+            \Log::error($e);
+            return redirect()->back()
+                ->withError(trans('idocs::common.messages.resource error', ['name' => trans('idocs:categories.title.categories')]))->withInput($request->all());
+
+        }
+    }
+
 }

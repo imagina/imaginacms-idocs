@@ -26,6 +26,8 @@ return [
         ],
         'documents' => [
             'secondaryImage' => false,
+            'identification'=>false,
+            'users'=>false,
             'partials' => [
                 'translatable' => [
                     'create' => [],

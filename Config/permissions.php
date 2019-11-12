@@ -9,6 +9,7 @@ return [
         'destroy' => 'idocs::categories.destroy resource',
     ],
     'idocs.documents' => [
+        'migrate' => 'idocs::documents.migrate',
         'manage' => 'idocs::documents.manage list',
         'index' => 'idocs::documents.list resource',
         'create' => 'idocs::documents.create resource',

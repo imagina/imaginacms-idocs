@@ -17,7 +17,7 @@ class Document extends Model
 
     protected $table = 'idocs__documents';
     public $translatedAttributes = ['title', 'description'];
-    protected $fillable = ['options', 'category_id', 'user_id', 'role_id', 'status'];
+    protected $fillable = ['user_identification','options', 'category_id', 'user_id', 'role_id', 'status'];
     protected $presenter = DocumentPresenter::class;
 
     protected $casts = [

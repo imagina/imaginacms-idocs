@@ -16,6 +16,7 @@ class CreateIdocsDocumentsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('category_id')->unsigned()->nullable();
+            $table->integer('user_identification')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('role')->unsigned()->nullable();
             $table->boolean('status')->default(false);

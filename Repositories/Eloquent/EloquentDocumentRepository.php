@@ -30,6 +30,12 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
         if (isset($params->filter)) {
             $filter = $params->filter;//Short filter
 
+            if (isset($filter->identification)) {
+
+                $query->where('user_identification',$filter->identification);
+            }
+
+
             //Filter by date
             if (isset($filter->date)) {
                 $date = $filter->date;//Short filter date

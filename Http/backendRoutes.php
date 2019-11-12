@@ -70,7 +70,17 @@ $router->group(['prefix' =>'/idocs'], function (Router $router) {
         'uses' => 'DocumentController@destroy',
         'middleware' => 'can:idocs.documents.destroy'
     ]);
-// append
 
+    $router->get('documents/migrate', [
+        'as' => 'admin.idocs.document.migrate',
+        'uses' => 'DocumentController@migration',
+        'middleware' => 'can:idocs.documents.migrate'
+    ]);
+// append
+    $router->post('documents/import', [
+        'as' => 'admin.idocs.document.import',
+        'uses' => 'DocumentController@import',
+        'middleware' => 'can:idocs.documents.migrate'
+    ]);
 
 });

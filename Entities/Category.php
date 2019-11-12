@@ -71,7 +71,7 @@ class Category extends Model
         if (!$thumbnail) {
             $image = [
                 'mimeType' => 'image/jpeg',
-                'path' => url('modules/iblog/img/post/default.jpg')
+                'path' => url('modules/idocs/img/default.jpg')
             ];
         } else {
             $image = [

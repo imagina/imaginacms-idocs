@@ -9,9 +9,11 @@ return [
         'documents' => 'Document',
         'create document' => 'Create a document',
         'edit document' => 'Edit a document',
+        'import documents'=>'Import documents'
     ],
     'button' => [
         'create document' => 'Create a document',
+        'import'=>'Import'
     ],
     'table' => [
         'id'=>'id',
@@ -30,7 +32,6 @@ return [
         'secondary image'=>'Secondary image',
         'image'=>'Main Image',
         'principal category'=> 'Main Category',
-        'Categories'=>'Categories',
         'metadata'=> 'SEO',
         'created at'=>'Created At',
         'file'=>'File',
@@ -38,10 +39,16 @@ return [
         'user'=>'Upload by: ',
         'users assigned'=>'Available for: ',
         'users'=>'Users',
-        'icon image'=> 'Icon Image'
+        'icon image'=> 'Icon Image',
+        'language'=>'Data language',
+        'Select File'=>'Select File',
+        'import document'=>'Import Documents',
+        'user identification'=>'User Identification',
+        'document'=>'Document Number'
 
     ],
     'messages' => [
+        'Select File compatible files CSV, XLSX'=>'Select File compatible files CSV, XLSX',
     ],
     'validation' => [
     ],

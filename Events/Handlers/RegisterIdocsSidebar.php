@@ -41,7 +41,7 @@ class RegisterIdocsSidebar implements \Maatwebsite\Sidebar\SidebarExtender
                 $item->icon('fa fa-copy');
                 $item->weight(10);
                 $item->authorize(
-                    $this->auth->hasAccess('idocs.categories.index') || $this->auth->hasAccess('idocs.documents.index')
+                    $this->auth->hasAccess('idocs.categories.index') || $this->auth->hasAccess('idocs.documents.index') || $this->auth->hasAccess('idocs.documents.migrate')
                 );
                 $item->item(trans('idocs::categories.title.categories'), function (Item $item) {
                     $item->icon('fa fa-copy');
@@ -59,6 +59,15 @@ class RegisterIdocsSidebar implements \Maatwebsite\Sidebar\SidebarExtender
                     $item->route('admin.idocs.document.index');
                     $item->authorize(
                         $this->auth->hasAccess('idocs.documents.index')
+                    );
+                });
+
+                $item->item(trans('idocs::documents.title.import documents'), function (Item $item) {
+                    $item->icon('fa fa-copy');
+                    $item->weight(0);
+                    $item->route('admin.idocs.document.migrate');
+                    $item->authorize(
+                        $this->auth->hasAccess('idocs.documents.migrate')
                     );
                 });
 // append

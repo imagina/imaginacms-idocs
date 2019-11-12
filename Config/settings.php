@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'posts-per-page' => [
-        'description' => 'iblog::settings.posts-per-page',
+    'docs-per-page' => [
+        'description' => 'idocs:docs.settings.docs-per-page',
         'view' => 'number',
     ]
 ];

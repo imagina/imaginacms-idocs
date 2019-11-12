@@ -205,6 +205,30 @@
             </div>
           </div>
         </div>
+        @if (config('asgard.idocs.config.fields.documents.identification')&&config('asgard.idocs.config.fields.documents.identification') !== [])
+          <div class="col-xs-12 ">
+            <div class="box box-primary">
+              <div class="box-header">
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                      class="fa fa-minus"></i>
+                  </button>
+                </div>
+                <div class="form-group">
+                  <label>{{trans('idocs::documents.form.users assigned')}}</label>
+                </div>
+              </div>
+              <div class="box-body ">
+                <div class='form-group{{ $errors->has("user-identification") ? ' has-error' : '' }}'>
+                  {!! Form::label("user_identification", trans('idocs::documents.form.user identification')) !!}
+                  {!! Form::text("user_identification", old("user_identification",$document->user_identification), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('idocs::documents.form.user identification')]) !!}
+                  {!! $errors->first("user-identification", '<span class="help-block">:message</span>') !!}
+                </div>
+              </div>
+            </div>
+          </div>
+        @endif
+        @if (config('asgard.idocs.config.fields.documents.users')&&config('asgard.idocs.config.fields.documents.users') !== [])
         <div class="col-xs-12 ">
           <div class="box box-primary">
             <div class="box-header">
@@ -222,6 +246,7 @@
             </div>
           </div>
         </div>
+        @endif
         <div class="col-xs-12 ">
           <div class="box box-primary">
             <div class="box-header">
