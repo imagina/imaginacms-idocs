@@ -157,4 +157,15 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
         return $model->delete();
     }
 
+
+    public function whereCategory($id)
+    {
+        $query = $this->model->with('categories','category', 'user', 'translations');
+        $query->whereHas('categories', function ($q) use ($id) {
+            $q->where('category_id', $id);
+        })->whereStatus(1)->where('created_at', '<', date('Y-m-d H:i:s'))->orderBy('created_at', 'DESC');
+
+        return $query->paginate(setting('idocs::documents-per-page'));
+    }
+
 }

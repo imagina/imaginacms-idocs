@@ -25,22 +25,24 @@ class PublicController extends BasePublicController
     public function index()
     {
 
-        $documents = $this->document->getItemsBy(json_decode(json_encode(['filter' => ['status' => 1], 'page' => $request->page ?? 1, 'take' => setting('idocg::docs-per-page'), 'include' => []])));
+        $categories = $this->category->getItemsBy(json_decode(json_encode(['filter' => ['private' => 0], 'page' => $request->page ?? 1, 'take' => setting('idocs::docs-per-page'), 'include' => ['children']])));
 
         $tpl = "idocs::frontend.index";
         $ttpl = "idocs.index";
 
         if (view()->exists($ttpl)) $tpl = $ttpl;
-        return view($tpl, compact('documents'));
+        return view($tpl, compact('categories'));
     }
 
     public function category($categorySlug)
     {
-
         $category = $this->category->findBySlug($categorySlug);
+
+        if($category->private && !\Auth::user()) return redirect()->route('login');
+
         $documents = $this->document->whereCategory($category->id);
-        $tpl = "idocs::frontend.index";
-        $ttpl = "idocs.index";
+        $tpl = "idocs::frontend.categories";
+        $ttpl = "idocs.categories";
 
         if (view()->exists($ttpl)) $tpl = $ttpl;
         return view($tpl, compact('documents', 'category'));
@@ -50,8 +52,8 @@ class PublicController extends BasePublicController
     {
         try {
             $searchphrase = $request->input('q');
-
-            $documents = $this->document->getItemsBy(json_decode(json_encode(['filter' => ['identification' => $searchphrase], 'page' => $request->page ?? 1, 'take' => setting('idocg::docs-per-page'), 'include' => ['user']])));
+            if (!$searchphrase) throw new \Exception('Item not found', 404);
+            $documents = $this->document->getItemsBy(json_decode(json_encode(['filter' => ['identification' => $searchphrase], 'page' => $request->page ?? 1, 'take' => setting('idocs::docs-per-page'), 'include' => ['user']])));
 
         } catch (\Exception $e) {
 

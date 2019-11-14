@@ -20,5 +20,9 @@ interface DocumentRepository extends BaseRepository
      */
     public function getItem($criteria, $params);
 
-
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function whereCategory($id);
 }

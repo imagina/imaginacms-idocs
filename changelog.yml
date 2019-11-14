@@ -1,5 +1,15 @@
 url: https://github.com/imagina/asgardcms-iblog
 versions:
+  "1.0.1":
+    added:
+      - Field private in Category Entity and views admin
+      - Validate in method category of logeed user in privates categories
+      - Method whereCategory in DocumentRepository
+      - filter private in method getItemsBy of categoryRepository
+    changed:
+      - Instalation Name by imagina/idocs-module
+      - fix route search and category
+      - fix methods serchs and category of PublicController
   "1.0.0":
     added:
       - Initial module version

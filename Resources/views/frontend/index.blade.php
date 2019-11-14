@@ -11,29 +11,30 @@
         <div class="container">
 
             <div class="row">
-
-                <!-- Blog Entries Column -->
                 <div class="col-md-8">
 
                     <h1 class="my-4">{{trans('idocs::common.title.idocs')}}
                     </h1>
 
-                @if (count($documents))
-                    @foreach($documents as $document)
-                        <!-- Blog Post -->
-                            <div class="card mb-4">
-                                {!!$document->present()->icon()!!}
+                @if (count($categories))
+                    <div class="row">
+                    @foreach($categories as $category)
+                            <div class="card col-sm-6 mb-4">
+                                <img class="card-img-top"
+                                     src="{{--str_replace('.jpg','_mediumThumb.jpg',$category->mainimage->path)--}}{{$category->mainimage->path}}"
+                                     alt="{{$category->title}}">
                                 <div class="card-body">
-                                    <a href="{{$document->file->path}}"
-                                       class="btn btn-primary" target="_blank">{{$document->title}}</a>
+                                    <h2 class="card-title">{{$category->title}}</h2>
+                                    <a href="{{$category->url}}"
+                                       class="btn btn-primary">{{trans('idocs::common.button.view more')}} &rarr;</a>
                                 </div>
                             </div>
                     @endforeach
-
+                    </div>
                 <!-- Pagination -->
                     <div class="pagination justify-content-center mb-4 pagination paginacion-blog row">
                         <div class="pull-right">
-                            {{$documents->links('pagination::bootstrap-4')}}
+                            {{$categories->links('pagination::bootstrap-4')}}
                         </div>
                     </div>
                     @else

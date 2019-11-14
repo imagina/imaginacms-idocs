@@ -30,6 +30,9 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
         if (isset($params->filter)) {
             $filter = $params->filter;//Short filter
 
+            if (isset($filter->private)) {
+                $query->where('private',$filter->private);
+            }
             //Filter by date
             if (isset($filter->date)) {
                 $date = $filter->date;//Short filter date
@@ -104,10 +107,10 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
         if (method_exists($this->model, 'translations')) {
             return $this->model->whereHas('translations', function (Builder $q) use ($slug) {
                 $q->where('slug', $slug);
-            })->with('translations', 'parent', 'children', 'posts')->firstOrFail();
+            })->with('translations', 'parent', 'children', 'documents')->firstOrFail();
         }
 
-        return $this->model->where('slug', $slug)->with('translations', 'parent', 'children', 'posts')->first();;
+        return $this->model->where('slug', $slug)->with('translations', 'parent', 'children', 'documents')->first();;
     }
 
     /**

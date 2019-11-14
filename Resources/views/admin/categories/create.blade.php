@@ -133,6 +133,9 @@
             </div>
           </div>
         @endif
+        @if ((config('asgard.idocs.config.fields.documents.identification')&&config('asgard.idocs.config.fields.documents.identification') !== [])|| (config('asgard.idocs.config.fields.documents.users')&&config('asgard.idocs.config.fields.documents.users') !== []))
+
+        @endif
       </div>
     </div>
   </div>

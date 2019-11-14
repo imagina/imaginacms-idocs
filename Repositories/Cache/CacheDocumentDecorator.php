@@ -28,4 +28,14 @@ class CacheDocumentDecorator extends BaseCacheDecorator implements DocumentRepos
         });
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function whereCategory($id)
+    {
+        return $this->remember(function () use ($id) {
+            return $this->repository->whereCategory($id);
+        });
+    }
 }

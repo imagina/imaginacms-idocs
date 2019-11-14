@@ -14,7 +14,7 @@ class Category extends Model
 
     protected $table = 'idocs__categories';
     public $translatedAttributes = ['title', 'description', 'slug', 'meta_title', 'meta_description', 'meta_keywords', 'translatable_options'];
-    protected $fillable = ['parent_id', 'options',];
+    protected $fillable = ['parent_id', 'options','private'];
 
     /**
      * The attributes that should be casted to native types.
@@ -22,7 +22,8 @@ class Category extends Model
      * @var array
      */
     protected $casts = [
-        'options' => 'array'
+        'options' => 'array',
+        'private'=>'boolean'
     ];
 
 
@@ -48,7 +49,7 @@ class Category extends Model
      * Relation with documents
      * @return mixed
      */
-    public function documnets()
+    public function documents()
     {
         return $this->belongsToMany(Document::class, 'idocs__document_category');
     }

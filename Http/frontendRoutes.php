@@ -10,18 +10,13 @@ $router->group(['prefix' =>'/documents'], function (Router $router) {
         'uses' => 'PublicController@index',
         //'middleware' => 'can:idocs.categories.index'
     ]);
-    $router->get('search', [
+    $router->get('/search', [
         'as' =>  'idocs.document.search',
         'uses' => 'PublicController@search'
     ]);
-    $router->get('{categorySlug}', [
+    $router->get('/{slug}', [
         'as' =>  $locale.'.idocs.category',
-        'uses' => 'PublicController@index'
-    ]);
-
-    $router->get('{categorySlug}/{slug}', [
-        'as' =>  $locale.'.idocs.document',
-        'uses' => 'PublicController@show'
+        'uses' => 'PublicController@category'
     ]);
 
     
