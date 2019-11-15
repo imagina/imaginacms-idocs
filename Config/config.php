@@ -27,6 +27,7 @@ return [
         'documents' => [
             'secondaryImage' => false,
             'identification'=>false,
+            'key'=>false,
             'users'=>false,
             'partials' => [
                 'translatable' => [

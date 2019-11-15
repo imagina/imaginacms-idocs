@@ -1,5 +1,10 @@
 url: https://github.com/imagina/asgardcms-iblog
 versions:
+  "1.0.2":
+    added:
+      - Field key and email to Document Entity
+      - Send email to user assigned to the domument
+      - helpers get_documnets and get_idoc_categories
   "1.0.1":
     added:
       - Field private in Category Entity and views admin

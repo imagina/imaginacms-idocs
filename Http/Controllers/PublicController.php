@@ -53,10 +53,9 @@ class PublicController extends BasePublicController
         try {
             $searchphrase = $request->input('q');
             if (!$searchphrase) throw new \Exception('Item not found', 404);
-            $documents = $this->document->getItemsBy(json_decode(json_encode(['filter' => ['identification' => $searchphrase], 'page' => $request->page ?? 1, 'take' => setting('idocs::docs-per-page'), 'include' => ['user']])));
+            $documents = $this->document->getItemsBy(json_decode(json_encode(['filter' => ['identification' => $searchphrase['identification'],'key'=>$searchphrase['key']], 'page' => $request->page ?? 1, 'take' => setting('idocs::docs-per-page'), 'include' => ['user']])));
 
         } catch (\Exception $e) {
-
             $searchphrase = null;
             $documents = null;
         }

@@ -3,16 +3,17 @@
     "alias": "idocs",
     "description": "",
     "keywords": [],
-    "version": "1.0.1",
+    "version": "1.0.2",
 	"active": 1,
     "order": 1,
     "providers": [
         "Modules\\Idocs\\Providers\\IdocsServiceProvider",
-        "Modules\\Idocs\\Providers\\RouteServiceProvider"
+        "Modules\\Idocs\\Providers\\RouteServiceProvider",
+        "Modules\\Idocs\\Providers\\EventServiceProvider"
     ],
     "aliases": {},
     "files": [
-        
+       "helpers.php"
     ],
     "requires": []
 }

@@ -30,11 +30,13 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
         if (isset($params->filter)) {
             $filter = $params->filter;//Short filter
 
-            if (isset($filter->identification)) {
-
+            if (isset($filter->identification )) {
                 $query->where('user_identification',$filter->identification);
-            }
 
+            }
+            if (isset($filter->key)) {
+                $query->where('key', $filter->key);
+            }
 
             //Filter by date
             if (isset($filter->date)) {
@@ -165,7 +167,7 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
             $q->where('category_id', $id);
         })->whereStatus(1)->where('created_at', '<', date('Y-m-d H:i:s'))->orderBy('created_at', 'DESC');
 
-        return $query->paginate(setting('idocs::documents-per-page'));
+        return $query->paginate(setting('idocs::docs-per-page'));
     }
 
 }

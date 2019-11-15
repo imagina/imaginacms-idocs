@@ -17,6 +17,11 @@ class AddIdocsPrivateField extends Migration
             $table->boolean('private')->default(false);
         });
 
+        Schema::table('idocs__documents', function (Blueprint $table) {
+            $table->text('key')->nullable();
+            $table->text('email')->nullable();
+        });
+
     }
 
     /**

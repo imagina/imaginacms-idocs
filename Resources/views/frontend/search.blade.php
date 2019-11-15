@@ -13,9 +13,9 @@
       <div class="row">
 
         <!-- Blog Entries Column -->
-        <div class="col-md-8">
+        <div class="col-md-12">
 
-          <h1 class="my-4">{{trans('idocs::common.title.idocs')}} - {{$searchphrase??''}}
+          <h1 class="my-4">{{trans('idocs::common.title.idocs')}} - {{$searchphrase['identification']??''}} - {{$searchphrase['key']??''}}
           </h1>
 
 
@@ -23,13 +23,19 @@
             <div class="col-12">
               <div class="card my-4">
                 <h5 class="card-header">Search</h5>
-              <form id="doc-search-input" class="form-inline" method="GET" onsubmit="return docSearchForm('identification')">
+              <form id="doc-search-input" class="form-inline" method="GET" action="{{route('idocs.document.search')}}">
+                <div class="input-group col-6 mb-3 mt-3">
+                  <input type="text" class="form-control" placeholder="{{trans('idocs::documents.form.document')}} " name="q[identification]" id ="identification" maxlength="64" required>
+                </div>
+                <div class="input-group col-6 mb-3 mt-3">
+                  <input type="text" class="form-control" placeholder="{{trans('idocs::documents.form.key')}} " name="q[key]" id ="key" maxlength="64" required>
+                </div>
                 <div class="input-group col-12 mb-3 mt-3">
-                  <input type="text" class="form-control" placeholder="{{trans('idocs::documents.form.document')}} " name="search" id ="identification" maxlength="64" required>
-                  <span class="input-group-btn">
+                <span class="input-group-btn">
                         <button class="btn btn-secondary" type="submit"><span class="fa fa-search"></span></button>
                     </span>
-                </div><!-- /input-group -->
+                </div>
+                <!-- /input-group -->
               </form>
               </div>
             </div>
@@ -52,6 +58,9 @@
                 {{$documents->links('pagination::bootstrap-4')}}
               </div>
             </div>
+          @elseif(isset($searchphrase['identification']))
+            <h2 class="my-4">{{trans('idocs::documents.messages.not found')}}
+            </h2>
           @endif
 
         </div>
@@ -65,12 +74,4 @@
 
 @section('scripts')
   @parent
-      <script type="text/javascript">
-          function docSearchForm(idsearch){
-              rut = "{{route('idocs.document.search')}}";
-              rut2 = rut+'?q='+document.getElementById(idsearch).value;
-              location.href = rut2;
-              return false;
-          }
-      </script>
 @stop

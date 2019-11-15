@@ -49,6 +49,7 @@ return [
     ],
     'messages' => [
         'Select File compatible files CSV, XLSX'=>'Select File compatible files CSV, XLSX',
+        'not found' =>'Document not found or not yet available'
     ],
     'validation' => [
     ],
