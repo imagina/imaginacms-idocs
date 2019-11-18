@@ -135,6 +135,29 @@
             </div>
           </div>
         @endif
+        @if ((config('asgard.idocs.config.fields.documents.identification')&&config('asgard.idocs.config.fields.documents.identification') !== [])|| (config('asgard.idocs.config.fields.documents.users')&&config('asgard.idocs.config.fields.documents.users') !== []))
+          <div class="col-xs-12 ">
+            <div class="box box-primary">
+              <div class="box-header">
+                <label>{{trans('idocs::categories.form.private')}}</label>
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                      class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="box-body ">
+                <div class='form-group{{ $errors->has("private") ? ' has-error' : '' }}'>
+                  <label class="checkbox" for="private">
+                    <input type="checkbox" id="private" name="privete"
+                           value="1" {{ old('status',$category->private) == 1? 'checked' : '' }}>
+                    {{trans('idocs::categories.form.private')}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endif
       </div>
     </div>
   </div>

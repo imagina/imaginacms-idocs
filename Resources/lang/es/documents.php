@@ -44,7 +44,9 @@ return [
         'language'=>'Lenguaje de datos',
         'Select File'=>'Seleccione Archivo',
         'import document'=>'Importar documentos',
-        'document'=>'Número del Documento'
+        'document'=>'Número del Documento',
+        'key'=>'Clave de Validación',
+        'email'=> 'Email de envío de notificación'
 
     ],
     'messages' => [

@@ -221,8 +221,13 @@
               <div class="box-body ">
                 <div class='form-group{{ $errors->has("user_identification") ? ' has-error' : '' }}'>
                   {!! Form::label("user_identification", trans('idocs::documents.form.user identification')) !!}
-                  {!! Form::text("user_identification", old("user_identification"), ['class' => 'form-control', 'data-slug' => 'source', 'placeholder' => trans('idocs::documents.form.user identification')]) !!}
+                  {!! Form::text("user_identification", old("user_identification"), ['class' => 'form-control','placeholder' => trans('idocs::documents.form.user identification')]) !!}
                   {!! $errors->first("user_identification", '<span class="help-block">:message</span>') !!}
+                </div>
+                <div class='form-group{{ $errors->has("email") ? ' has-error' : '' }}'>
+                  {!! Form::label("email", trans('idocs::documents.form.email')) !!}
+                  {!! Form::text("email", old("user_identification",$document->email), ['class' => 'form-control',  'placeholder' => trans('idocs::documents.form.email')]) !!}
+                  {!! $errors->first("email", '<span class="help-block">:message</span>') !!}
                 </div>
               </div>
             </div>

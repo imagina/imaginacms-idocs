@@ -44,7 +44,9 @@ return [
         'Select File'=>'Select File',
         'import document'=>'Import Documents',
         'user identification'=>'User Identification',
-        'document'=>'Document Number'
+        'document'=>'Document Number',
+        'key'=>'Token Key',
+        'email'=> 'Email user send'
 
     ],
     'messages' => [

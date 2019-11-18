@@ -1,5 +1,10 @@
 url: https://github.com/imagina/asgardcms-iblog
 versions:
+  "1.0.3":
+    added:
+      - Translations for document entity
+      - Generate key in Admin/DocumnetController
+      - field private in view admin of category
   "1.0.2":
     added:
       - Field key and email to Document Entity

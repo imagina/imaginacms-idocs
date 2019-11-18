@@ -219,10 +219,10 @@
                 </div>
               </div>
               <div class="box-body ">
-                <div class='form-group{{ $errors->has("user-identification") ? ' has-error' : '' }}'>
+                <div class='form-group{{ $errors->has("user_identification") ? ' has-error' : '' }}'>
                   {!! Form::label("user_identification", trans('idocs::documents.form.user identification')) !!}
                   {!! Form::text("user_identification", old("user_identification",$document->user_identification), ['class' => 'form-control',  'placeholder' => trans('idocs::documents.form.user identification')]) !!}
-                  {!! $errors->first("user-identification", '<span class="help-block">:message</span>') !!}
+                  {!! $errors->first("user_identification", '<span class="help-block">:message</span>') !!}
                 </div>
                 <div class='form-group{{ $errors->has("key") ? ' has-error' : '' }}'>
                   {!! Form::label("key", trans('idocs::documents.form.key')) !!}

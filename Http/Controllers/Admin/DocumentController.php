@@ -75,7 +75,11 @@ class DocumentController extends AdminBaseController
     {
         \DB::beginTransaction();
         try {
-            $this->document->create($request->all());
+
+            $data=$request->all();
+            $data['key']=str_random(30);
+
+            $this->document->create($data);
             \DB::commit();//Commit to Data Base
             return redirect()->route('admin.idocs.document.index')
                 ->withSuccess(trans('idocs::common.messages.resource created', ['name' => trans('idocs::documents.title.documents')]));
