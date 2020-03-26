@@ -226,7 +226,7 @@
                 </div>
                 <div class='form-group{{ $errors->has("email") ? ' has-error' : '' }}'>
                   {!! Form::label("email", trans('idocs::documents.form.email')) !!}
-                  {!! Form::text("email", old("user_identification",$document->email), ['class' => 'form-control',  'placeholder' => trans('idocs::documents.form.email')]) !!}
+                  {!! Form::text("email", old("user_identification"), ['class' => 'form-control',  'placeholder' => trans('idocs::documents.form.email')]) !!}
                   {!! $errors->first("email", '<span class="help-block">:message</span>') !!}
                 </div>
               </div>

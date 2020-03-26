@@ -37,7 +37,9 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
             if (isset($filter->key)) {
                 $query->where('key', $filter->key);
             }
-
+            if (isset($filter->status)) {
+                $query->whereStatus($filter->status);
+            }
             //Filter by date
             if (isset($filter->date)) {
                 $date = $filter->date;//Short filter date
@@ -124,12 +126,11 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
      */
     public function create($data)
     {
-        $documnet = $this->model->create($data);
-        $documnet->categories()->sync(array_get($data, 'categories', []));
-        $documnet->users()->sync(array_get($data, 'users', []));
-        event(new DocumentWasCreated($documnet, $data));
-
-        return $documnet;
+        $document = $this->model->create($data);
+        $document->categories()->sync(array_get($data, 'categories', []));
+        $document->users()->sync(array_get($data, 'users', []));
+        event(new DocumentWasCreated($document, $data));
+        return $document;
     }
 
     /**

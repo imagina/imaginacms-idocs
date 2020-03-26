@@ -1,5 +1,14 @@
 url: https://github.com/imagina/asgardcms-iblog
 versions:
+  "1.0.4":
+    added:
+      - Validate mineType field of the method icon in DocumentPresenter
+      - Filter Status in method getItemsBy of DocumentRepository
+    changed:
+      - Translate labels in file settings
+      - SendDocument Event added Settings Class and Try catch
+      - method search in PublicController
+      -
   "1.0.3":
     added:
       - Translations for document entity

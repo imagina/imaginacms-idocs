@@ -24,7 +24,8 @@ return [
         'description'=>'Description',
         'parent category'=>'Parent Category',
         'secondary image'=>'Secondary Image',
-        'image'=>'Main Image'
+        'image'=>'Main Image',
+        'private'=>'Private'
     ],
     'messages' => [
         'resource error'=>'Resource error'

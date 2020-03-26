@@ -149,8 +149,8 @@
               <div class="box-body ">
                 <div class='form-group{{ $errors->has("private") ? ' has-error' : '' }}'>
                   <label class="checkbox" for="private">
-                    <input type="checkbox" id="private" name="privete"
-                           value="1" {{ old('status',$category->private) == 1? 'checked' : '' }}>
+                    <input type="checkbox" id="private" name="private"
+                           value="1" {{ old('private',$category->private) == 1? 'checked' : '' }}>
                     {{trans('idocs::categories.form.private')}}
                   </label>
                 </div>

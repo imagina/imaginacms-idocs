@@ -51,7 +51,8 @@ return [
     ],
     'messages' => [
         'Select File compatible files CSV, XLSX'=>'Select File compatible files CSV, XLSX',
-        'not found' =>'Document not found or not yet available'
+        'not found' =>'Document not found or not yet available',
+        'subject'=> 'The :documnet document was registered by'
     ],
     'validation' => [
     ],
@@ -59,4 +60,8 @@ return [
         'inactive'=> 'Inactive',
         'active'=>'Active'
     ],
+    'settings'=>[
+        'msg-email'=> 'message form email',
+        'docs-per-page'=>'document by page'
+    ]
 ];

@@ -24,7 +24,8 @@ return [
         'description'=>'Descripción',
         'parent category'=>'Categoría Padre',
         'secondary image'=>'Imagen secundaria',
-        'image'=>'Imagen principal'
+        'image'=>'Imagen principal',
+        'private'=>'Categoría Privada'
     ],
     'messages' => [
         'resource error'=>'Error de recursos'

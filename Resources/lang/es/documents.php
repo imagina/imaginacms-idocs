@@ -51,7 +51,8 @@ return [
     ],
     'messages' => [
         'Select File compatible files CSV, XLSX'=>'Seleccionar archivos compatibles con archivos CSV, XLSX',
-        'not found' =>'Documento no encontrado o aún no disponible'
+        'not found' =>'Documento no encontrado o aún no disponible',
+        'subject'=> 'Confinación de disponibilidad de :document en '
     ],
     'validation' => [
     ],
@@ -59,4 +60,8 @@ return [
         'inactive'=> 'Inactivo',
         'active'=>'Activo'
     ],
+    'settings'=>[
+        'msg-email'=> 'Menseaje para el Correo del Usuario',
+        'docs-per-page'=>'registros por pagina'
+    ]
 ];
