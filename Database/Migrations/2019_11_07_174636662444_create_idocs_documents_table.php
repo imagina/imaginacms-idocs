@@ -20,7 +20,7 @@ class CreateIdocsDocumentsTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('role')->unsigned()->nullable();
             $table->boolean('status')->default(false);
-            $table->text('options')->default('')->nullable();
+            $table->text('options')->nullable();
             $table->foreign('category_id')->references('id')->on('idocs__categories')->onDelete('restrict');
             $table->foreign('user_id')->references('id')->on(config('auth.table', 'users'))->onDelete('restrict');
             $table->timestamps();
