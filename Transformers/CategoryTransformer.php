@@ -12,6 +12,7 @@ class CategoryTransformer extends Resource
     $data = [
       'id' => $this->when($this->id, $this->id),
       'title' => $this->when($this->title, $this->title),
+      'slug' => $this->when($this->slug, $this->slug),
       'description' => $this->description ?? '',
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),
@@ -32,6 +33,8 @@ class CategoryTransformer extends Resource
       foreach ($languages as $lang => $value) {
         $data[$lang]['title'] = $this->hasTranslation($lang) ?
           $this->translate("$lang")['title'] : '';
+        $data[$lang]['slug'] = $this->hasTranslation($lang) ?
+          $this->translate("$lang")['slug'] : '';
         $data[$lang]['description'] = $this->hasTranslation($lang) ?
           $this->translate("$lang")['description'] ?? '' : '';
       }

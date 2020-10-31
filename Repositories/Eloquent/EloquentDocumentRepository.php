@@ -127,7 +127,7 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     public function create($data)
     {
         $document = $this->model->create($data);
-        $document->categories()->sync(array_get($data, 'categories', []));
+        $document->categories()->sync(array_merge(array_get($data, 'categories', []), [$document->category_id]));
         $document->users()->sync(array_get($data, 'users', []));
         event(new DocumentWasCreated($document, $data));
         return $document;
@@ -139,16 +139,16 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
      * @param  array $data
      * @return mixed
      */
-    public function update($documnet, $data)
+    public function update($document, $data)
     {
-        $documnet->update($data);
+        $document->update($data);
 
-        $documnet->categories()->sync(array_get($data, 'categories', []));
+        $document->categories()->sync(array_merge(array_get($data, 'categories', []), [$document->category_id]));
 
-        event(new DocumentWasUpdated($documnet, $data));
+        event(new DocumentWasUpdated($document, $data));
 
 
-        return $documnet;
+        return $document;
     }
 
 
