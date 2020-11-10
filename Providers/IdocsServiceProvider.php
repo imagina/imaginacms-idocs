@@ -29,8 +29,8 @@ class IdocsServiceProvider extends ServiceProvider
         $this->app['events']->listen(BuildingSidebar::class, RegisterIdocsSidebar::class);
 
         $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            $event->load('categories', array_dot(trans('idocs::categories')));
-            $event->load('documents', array_dot(trans('idocs::documents')));
+            $event->load('categories', Arr::dot(trans('idocs::categories')));
+            $event->load('documents', Arr::dot(trans('idocs::documents')));
             // append translations
 
 

@@ -2,10 +2,10 @@
 
 namespace Modules\Idocs\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Idocs\Transformers\CategoryTransformer;
 
-class DocumentTransformer extends Resource
+class DocumentTransformer extends JsonResource
 {
   public function toArray($request)
   {
