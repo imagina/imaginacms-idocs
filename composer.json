@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.0.0",
-        "imagina/core-module": "4.0.x-dev",
+        "imagina/core-module": "v8.x-dev",
         "maatwebsite/excel":"~3.1",
         "cviebrock/eloquent-sluggable":"~4.3"
     },
