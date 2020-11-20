@@ -2,6 +2,7 @@
 
 namespace Modules\Idocs\Repositories\Eloquent;
 
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Idocs\Events\DocumentWasCreated;
