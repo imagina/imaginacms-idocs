@@ -85,7 +85,7 @@ class DocumentController extends AdminBaseController
                 ->withSuccess(trans('idocs::common.messages.resource created', ['name' => trans('idocs::documents.title.documents')]));
         } catch (\Exception $e) {
             \DB::rollback();
-            \Log::error($e);
+            \Log::error($e->getMessage());
             return redirect()->back()
                 ->withError(trans('idocs::common.messages.resource error', ['name' => trans('idocs:categories.title.categories')]))->withInput($request->all());
 
@@ -122,7 +122,7 @@ class DocumentController extends AdminBaseController
                 ->withSuccess(trans('idocs::common.messages.resource updated', ['name' => trans('idocs::documents.title.documents')]));
         } catch (\Exception $e) {
             \DB::rollback();
-            \Log::error($e);
+            \Log::error($e->getMessage());
             return redirect()->back()
                 ->withError(trans('idocs::common.messages.resource error', ['name' => trans('idocs:categories.title.categories')]))->withInput($request->all());
 
@@ -145,7 +145,7 @@ class DocumentController extends AdminBaseController
                 ->withSuccess(trans('idocs::common.messages.resource deleted', ['name' => trans('idocs::documents.title.documents')]));
         } catch (\Exception $e) {
             \DB::rollback();
-            \Log::error($e);
+            \Log::error($e->getMessage());
             return redirect()->back()
                 ->withError(trans('idocs::common.messages.resource error', ['name' => trans('idocs:categories.title.categories')]));
 
@@ -188,7 +188,7 @@ class DocumentController extends AdminBaseController
         } catch (\Exception $e) {
             dd($e);
             \DB::rollback();
-            \Log::error($e);
+            \Log::error($e->getMessage());
             return redirect()->back()
                 ->withError(trans('idocs::common.messages.resource error', ['name' => trans('idocs:categories.title.categories')]))->withInput($request->all());
 

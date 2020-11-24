@@ -65,7 +65,7 @@ class CategoryController extends AdminBaseController
                 ->withSuccess(trans('idocs::common.messages.resource created', ['name' => trans('idocs::categories.title.categories')]));
         } catch (\Exception $e) {
             \DB::rollback();
-            \Log::error($e);
+            \Log::error($e->getMessage());
             return redirect()->back()
                 ->withError(trans('idocs::common.messages.resource error', ['name' => trans('idocs:categories.title.categories')]))->withInput($request->all());
 
@@ -101,7 +101,7 @@ class CategoryController extends AdminBaseController
                 ->withSuccess(trans('idocs::common.messages.resource updated', ['name' => trans('idocs::categories.title.categories')]));
         } catch (\Exception $e) {
             \DB::rollback();
-            \Log::error($e);
+            \Log::error($e->getMessage());
             return redirect()->back()
                 ->withError(trans('idocs::common.messages.resource error', ['name' => trans('idocs:categories.title.categories')]))->withInput($request->all());
 
@@ -124,7 +124,7 @@ class CategoryController extends AdminBaseController
                 ->withSuccess(trans('idocs::common.messages.resource deleted', ['name' => trans('idocs::categories.title.categories')]));
         } catch (\Exception $e) {
             \DB::rollback();
-            \Log::error($e);
+            \Log::error($e->getMessage());
             return redirect()->back()
                 ->withError(trans('idocs::common.messages.resource error', ['name' => trans('idocs:categories.title.categories')]));
 

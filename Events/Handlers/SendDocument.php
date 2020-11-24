@@ -42,7 +42,7 @@ class SendDocument
                 }
             }
         } catch (\Exception $e) {
-            \Log::error($e);
+            \Log::error($e->getMessage());
             return $e;
         }
     }
