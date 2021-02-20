@@ -29,7 +29,7 @@ class DocumentUser extends Model
 
 public function setKeyAttribute($value)
 {
-  $key = '';
+  $key = '';$length=50;
   list($usec, $sec) = explode(' ', microtime());
   mt_srand((float) $sec + ((float) $usec * 100000));
   

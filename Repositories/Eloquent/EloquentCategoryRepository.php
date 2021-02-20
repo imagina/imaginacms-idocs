@@ -55,11 +55,13 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
        $authUser = \Auth::user();
         if(!isset($authUser->id)){
           $query->where("private",false);
+    
         }else{
           if (!isset($params->permissions['media.medias.index-all']) ||
             (isset($params->permissions['media.medias.index-all']) &&
               !$params->permissions['media.medias.index-all'])) {
             $query->where("private",false);
+           
           }
         }
         

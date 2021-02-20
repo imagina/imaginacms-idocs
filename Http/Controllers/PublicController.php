@@ -86,7 +86,7 @@ class PublicController extends BaseApiController
       
       //Request to Repository
       $document = $this->document->getItem($documentId, $params);
-   
+
       if(isset($document->id)){
         if($document->private){
           $documentUser = DocumentUser::where('key', $key)->where('document_id',$document->id ?? null)->first();

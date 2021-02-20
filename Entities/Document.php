@@ -57,7 +57,9 @@ class Document extends Model
     public function users()
     {
         $driver = config('asgard.user.config.driver');
-        return $this->belongsToMany("Modules\\User\\Entities\\{$driver}\\User", 'idocs__document_user', 'document_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany("Modules\\User\\Entities\\{$driver}\\User", 'idocs__document_user', 'document_id', 'user_id')
+          ->withTimestamps()
+          ->withPivot(['key','downloaded']);
     }
 
     public function departments()
@@ -105,6 +107,7 @@ class Document extends Model
   public function setKeyAttribute($value)
   {
     $key = '';
+    $length = 50;
     list($usec, $sec) = explode(' ', microtime());
     mt_srand((float) $sec + ((float) $usec * 100000));
     
@@ -114,7 +117,7 @@ class Document extends Model
     {
       $key .= $inputs{mt_rand(0,61)};
     }
-    
+ 
     $this->attributes['key'] = $key;
   }
   

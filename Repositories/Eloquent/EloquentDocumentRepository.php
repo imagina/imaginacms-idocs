@@ -42,6 +42,9 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
             if (isset($filter->key)) {
                 $query->where('key', $filter->key);
             }
+            if (isset($filter->private)) {
+                $query->where('private', $filter->private);
+            }
             if (isset($filter->status)) {
                 $query->whereStatus($filter->status);
             }
@@ -64,8 +67,11 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
         }
   
         $user = $params->user ?? \Auth::user();
-    
-        if(isset($user->id)){
+        $route = request()->route()->getName();
+        $locale = \App::getLocale();
+        if(isset($user->id) && (!isset($filter->private) || !$filter->private)
+        && $route != $locale.".idocs.index.public"){
+
           if (!isset($params->permissions['media.medias.index-all']) ||
             (isset($params->permissions['media.medias.index-all']) &&
               !$params->permissions['media.medias.index-all'])) {
@@ -73,10 +79,12 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
             $query->with("users")->whereHas('users', function ($q) use ($user) {
               $q->where('users.id', $user->id);
             });
+            $query->where("status",1);
         
       }
         }else{
           $query->where("private",false);
+          $query->where("status",1);
         }
       
 
@@ -127,10 +135,11 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
             $query->with("users")->whereHas('users', function ($q) use ($user) {
               $q->where('users.id', $user->id);
             });
-        
+            $query->where("status",1);
           }
         }else{
             $query->where("private",false);
+          $query->where("status",1);
         }
       
         /*== FIELDS ==*/
@@ -166,8 +175,7 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     public function create($data)
     {
         $document = $this->model->create($data);
-       
-        $document->users()->sync(Arr::get($data, 'users', []));
+        
         event(new DocumentWasCreated($document, $data));
         return $document;
     }
@@ -182,8 +190,6 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     {
         $document->update($data);
         
-      if (isset($data['users']))
-        $document->users()->sync(Arr::get($data, 'users', []));
       
         event(new DocumentWasUpdated($document, $data));
 

@@ -4,12 +4,12 @@
     @include('idocs::frontend.partials.category.metas')
 @stop
 @section('title')
-    {{trans('idocs::common.title.idocs')}} | @parent
+    {{trans('idocs::frontend.publicDocuments')}} | @parent
 @stop
 @section('content')
     
     <x-isite::breadcrumb>
-        <li class="breadcrumb-item active" aria-current="page"> {{trans('idocs::frontend.documents')}}</li>
+        <li class="breadcrumb-item active" aria-current="page"> {{trans('idocs::frontend.publicDocuments')}}</li>
     </x-isite::breadcrumb>
     
     <div class="container">
@@ -19,7 +19,7 @@
                   moduleName="Idocs"
                   entityName="Category"
                   :params="[
-						'filter' => [],
+						'filter' => ['private' => false],
 						'include' => [],
 						'take' => 12
 					]"

@@ -26,7 +26,7 @@ class TrackingDocument
           $key = $event->key;
           $user = \Auth::user();
           
-          if($document->private){
+         //Tracking downloads to private documents
             $query = DocumentUser::where('document_id',$document->id);
             if(isset($user->id)){
               $query->where("user_id",$user->id);
@@ -40,10 +40,9 @@ class TrackingDocument
             $documentUser->downloaded = $documentUser->downloaded+1;
             $documentUser->save();
   
-          }else{
-            $document->downloaded = $document->downloaded+1;
-            $document->save();
-          }
+          //Tracking downloads to master document
+          $document->downloaded = $document->downloaded+1;
+          $document->save();
           
         } catch (\Exception $e) {
             \Log::error($e->getMessage());

@@ -4,6 +4,7 @@ namespace Modules\Idocs\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Idocs\Transformers\CategoryTransformer;
+use Modules\Iprofile\Transformers\UserTransformer;
 
 class DocumentTransformer extends JsonResource
 {
@@ -12,15 +13,19 @@ class DocumentTransformer extends JsonResource
     $data = [
       'id' => $this->when($this->id, $this->id),
       'title' => $this->when($this->title, $this->title),
+      'key' => $this->when($this->key, $this->key),
+      'downloaded' => $this->when($this->downloaded, $this->downloaded),
       'description' => $this->description ?? '',
       'size' => round($this->file->size/1000000,2),
       'mimeType' => $this->file->mimeType,
       'options' => $this->when($this->options, $this->options),
-      'status' => $this->when($this->status, intval($this->status)),
+      'status' => $this->when(isset($this->status), $this->status ? '1': '0'),
+      'private' => $this->when(isset($this->private), $this->private ? '1': '0'),
       'parentId' => $this->parent_id,
       'categoryId' => $this->category_id,
       'category' => new CategoryTransformer($this->whenLoaded('category')),
       'categories' => CategoryTransformer::collection($this->whenLoaded('categories')),
+      'users' => UserTransformer::collection($this->whenLoaded('users')),
       'mediaFiles' => $this->mediaFiles(),
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at)

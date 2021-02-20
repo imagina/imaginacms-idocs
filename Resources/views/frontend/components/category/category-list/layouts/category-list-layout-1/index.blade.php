@@ -1,24 +1,24 @@
 @if($documents->count())
 <section id="idocsCategoryList1" class="idocs-category-list mb-3">
-        <div id="idocsDocumentsAccordion" class="accordion">
+        <div id="idocsDocumentsAccordion{{$item->id}}" class="accordion">
           <div class="card card-documents rounded-0">
-            <div class="card-header d-flex align-items-center justify-content-between" id="headingOne">
+            <div class="card-header d-flex align-items-center justify-content-between" id="headingOne{{$item->id}}">
             
-              <button class="btn btn-link px-2 py-0 w-100 text-left" data-toggle="collapse" data-target="#collapseOne"
+              <button class="btn btn-link px-2 py-0 w-100 text-left" data-toggle="collapse" data-target="#collapseOne{{$item->id}}"
                       aria-expanded="true" aria-controls="collapseOne" type="button">
                 <h5 class="card-title font-weight-bold mb-0">
                 {{$item->title}}
                 </h5>
               </button>
   
-                <button class="btn btn-collapse px-2 py-0 float-right" data-toggle="collapse" data-target="#collapseOne"
+                <button class="btn btn-collapse px-2 py-0 float-right" data-toggle="collapse" data-target="#collapseOne{{$item->id}}"
                         aria-expanded="true" aria-controls="documentsAccordion" type="button">
                   <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
            
             </div>
         
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#idocsDocumentsAccordion">
+            <div id="collapseOne{{$item->id}}" class="collapse show" aria-labelledby="headingOne{{$item->id}}" data-parent="#idocsDocumentsAccordion{{$item->id}}">
               <div class="card-body p-0">
           
                     <div class="row head d-none d-md-flex">
