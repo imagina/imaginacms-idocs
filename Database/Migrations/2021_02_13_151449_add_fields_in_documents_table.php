@@ -16,7 +16,7 @@ class AddFieldsInDocumentsTable extends Migration
  
   
       Schema::table('idocs__documents', function (Blueprint $table) {
-        $table->boolean('private')->nullable();
+        $table->boolean('private')->default(false);
         $table->integer('downloaded')->default(0);
       });
   

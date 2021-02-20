@@ -75,7 +75,11 @@ class Document extends Model
   
   public function tracking()
   {
-    return $this->hasOne(DocumentUser::class)->where('user_id',$this->auth->id ?? null);
+    if($this->private)
+      return $this->hasOne(DocumentUser::class)->where('user_id',$this->auth->id ?? null);
+    else{
+      return $this->belongsTo(Document::class,'id','id');
+    }
   }
 
     /**
@@ -97,7 +101,23 @@ class Document extends Model
         return json_decode(json_encode($image));
 
     }
+  
+  public function setKeyAttribute($value)
+  {
+    $key = '';
+    list($usec, $sec) = explode(' ', microtime());
+    mt_srand((float) $sec + ((float) $usec * 100000));
     
+    $inputs = array_merge(range('z','a'),range(0,9),range('A','Z'));
+    
+    for($i=0; $i<$length; $i++)
+    {
+      $key .= $inputs{mt_rand(0,61)};
+    }
+    
+    $this->attributes['key'] = $key;
+  }
+  
     /**
      * @return mixed
      */
@@ -114,6 +134,7 @@ class Document extends Model
     public function getPublicUrlAttribute()
     {
       $tracking = $this->tracking;
+     
       return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.show.documentByKey', [$this->id,$tracking->key]);
       
     }

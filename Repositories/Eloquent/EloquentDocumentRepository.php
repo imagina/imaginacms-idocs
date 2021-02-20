@@ -35,6 +35,10 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
                 $query->where('user_identification',$filter->identification);
 
             }
+            if (isset($filter->categoryId )) {
+                $query->where('category_id',$filter->categoryId);
+
+            }
             if (isset($filter->key)) {
                 $query->where('key', $filter->key);
             }
@@ -162,7 +166,7 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     public function create($data)
     {
         $document = $this->model->create($data);
-        $document->categories()->sync(array_merge(Arr::get($data, 'categories', []), [$document->category_id]));
+       
         $document->users()->sync(Arr::get($data, 'users', []));
         event(new DocumentWasCreated($document, $data));
         return $document;
@@ -177,9 +181,10 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     public function update($document, $data)
     {
         $document->update($data);
-
-        $document->categories()->sync(array_merge(Arr::get($data, 'categories', []), [$document->category_id]));
-
+        
+      if (isset($data['users']))
+        $document->users()->sync(Arr::get($data, 'users', []));
+      
         event(new DocumentWasUpdated($document, $data));
 
 

@@ -13,7 +13,7 @@ class DocumentTransformer extends JsonResource
       'id' => $this->when($this->id, $this->id),
       'title' => $this->when($this->title, $this->title),
       'description' => $this->description ?? '',
-      'size' => round($this->file->size/1000,2),
+      'size' => round($this->file->size/1000000,2),
       'mimeType' => $this->file->mimeType,
       'options' => $this->when($this->options, $this->options),
       'status' => $this->when($this->status, intval($this->status)),

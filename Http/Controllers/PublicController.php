@@ -28,13 +28,11 @@ class PublicController extends BaseApiController
     public function index()
     {
 
-        $categories = $this->category->getItemsBy(json_decode(json_encode(['filter' => ['private' => 0], 'page' => $request->page ?? 1, 'take' => setting('idocs::docs-per-page'), 'include' => ['children']])));
-
         $tpl = "idocs::frontend.index";
         $ttpl = "idocs.index";
 
         if (view()->exists($ttpl)) $tpl = $ttpl;
-        return view($tpl, compact('categories'));
+        return view($tpl);
     }
   
   
@@ -89,9 +87,15 @@ class PublicController extends BaseApiController
       //Request to Repository
       $document = $this->document->getItem($documentId, $params);
    
-      $documentUser = DocumentUser::where('key', $key)->where('document_id',$document->id ?? null)->first();
+      if(isset($document->id)){
+        if($document->private){
+          $documentUser = DocumentUser::where('key', $key)->where('document_id',$document->id ?? null)->first();
+          if(!$documentUser) throw new Exception('Item not found',404);
+        }
+      }
+      
       //Break if no found item
-      if(!$document || !$documentUser) throw new Exception('Item not found',404);
+      if(!$document) throw new Exception('Item not found',404);
       
       $type = $document->file->mimeType;
       

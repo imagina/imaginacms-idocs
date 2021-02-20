@@ -11,6 +11,7 @@ class CategoryListItem extends Component
   public $item;
   public $layout;
   public $view;
+  public $documents;
   public $addToCartWithQuantity;
   
   /**
@@ -28,6 +29,13 @@ class CategoryListItem extends Component
     
     if (!empty($parentAttributes))
       $this->getParentAttributes($parentAttributes);
+  
+    $params = [
+                    'filter' => ['categoryId' => $item->id],
+                    'include' => [],
+                    'take' => 12
+                  ];
+    $this->documents = $this->getDocumentRepository()->getItemsBy(json_decode(json_encode($params)));
   }
   
   private function getParentAttributes($parentAttributes)
@@ -39,7 +47,7 @@ class CategoryListItem extends Component
   
   private function getDocumentRepository()
   {
-    return app('Modules\Idocs\Repositories\CategoryRepository');
+    return app('Modules\Idocs\Repositories\DocumentRepository');
   }
   
   /**

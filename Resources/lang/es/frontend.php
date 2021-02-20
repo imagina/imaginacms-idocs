@@ -2,6 +2,7 @@
 
 return [
     
-    'myDocuments'=> 'Mis Documentos'
+    'myDocuments'=> 'Mis Documentos',
+    'documents'=> 'Documentos',
     
 ];

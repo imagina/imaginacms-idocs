@@ -1,123 +1,61 @@
-<section id="idocsCategoryList1" class="idocs-category-list">
-        <div id="idocsDocumentsAccordion">
+@if($documents->count())
+<section id="idocsCategoryList1" class="idocs-category-list mb-3">
+        <div id="idocsDocumentsAccordion" class="accordion">
           <div class="card card-documents rounded-0">
             <div class="card-header d-flex align-items-center justify-content-between" id="headingOne">
-              <h5 class="card-title font-weight-bold mb-0">Mandato Registro de Facturas - ORF</h5>
-              <button class="btn btn-collapse px-2 py-0" data-toggle="collapse" data-target="#collapseOne"
+            
+              <button class="btn btn-link px-2 py-0 w-100 text-left" data-toggle="collapse" data-target="#collapseOne"
                       aria-expanded="true" aria-controls="collapseOne" type="button">
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                <h5 class="card-title font-weight-bold mb-0">
+                {{$item->title}}
+                </h5>
               </button>
+  
+                <button class="btn btn-collapse px-2 py-0 float-right" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="documentsAccordion" type="button">
+                  <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+           
             </div>
         
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#documentsAccordion">
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#idocsDocumentsAccordion">
               <div class="card-body p-0">
-                <div class="table-responsive">
-                  <table class="table table-documents mb-0">
-                    <thead>
-                    <tr>
-                      <th scope="col" class="text-right">#</th>
-                      <th scope="col">Título</th>
-                      <th scope="col">Tamaño</th>
-                      <th scope="col">Visitas</th>
-                      <th scope="col">Descargar</th>
-                      <th scope="col" class="dropdown-docs text-right pr-4">
-                        <button class="btn dropdown-toggle p-0" type="button" id="docOptions"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fa fa-cog" aria-hidden="true"></i>
-                        </button>
-                        <div class="dropdown-menu border-0 rounded-0" aria-labelledby="docOptions">
-                          <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1">#</label>
-                          </div>
-                          <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch2">
-                            <label class="custom-control-label" for="customSwitch2">Tamaño</label>
-                          </div>
-                          <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch3">
-                            <label class="custom-control-label" for="customSwitch3">Visitas</label>
-                          </div>
-                          <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch4">
-                            <label class="custom-control-label" for="customSwitch4">Descargar</label>
-                          </div>
-                        </div>
-                      </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td class="text-right">
-                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                      </td>
-                      <td class="table-documents__title">Ver Mandato</td>
-                      <td>1,37 mb</td>
-                      <td>122</td>
-                      <td>
-                        <a class="ml-3" href="#" download>
-                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                        </a>
-                      </td>
-                      <td>
-                        <button class="btn btn-preview d-flex align-items-center flex-column p-0" type="button">
-                          <i class="fa fa-eye text-gray-200" aria-hidden="true"></i>
-                          Vista Previa
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-right">
-                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                      </td>
-                      <td class="table-documents__title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aspernatur autem delectus dignissimos, distinctio eligendi explicabo fugiat labore magnam nihil odit omnis repudiandae similique sit veritatis. Delectus eius inventore saepe!</td>
-                      <td>1,37 mb</td>
-                      <td>122</td>
-                      <td>
-                        <a class="ml-3" href="#" download>
-                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                        </a>
-                      </td>
-                      <td>
-                        <button class="btn btn-preview d-flex align-items-center flex-column p-0" type="button">
-                          <i class="fa fa-eye text-gray-200" aria-hidden="true"></i>
-                          Vista Previa
-                        </button>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
+          
+                    <div class="row head d-none d-md-flex">
+                      <div class="col-12 col-md-6 title-description">
+                        <span>{{trans('idocs::documents.form.title')}}</span>
+                      </div>
+                      <div class="col-12 col-md-2 size">
+                        <span> {{trans('idocs::documents.form.size')}}</span>
+                      </div>
+    
+                      <div class="col-12 col-md-2 downloaded">
+                        <span> {{trans('idocs::documents.form.downloads')}}</span>
+                      </div>
+                      <div class="col-12 col-md-2 download">
+                        <span> {{trans('idocs::documents.form.download')}}</span>
+                      </div>
+                    </div>
+  
+                    <livewire:isite::item-list
+                      moduleName="Idocs"
+                      entityName="Document"
+                      :params="[
+                    'filter' => ['categoryId' => $item->id],
+                    'include' => [],
+                    'take' => 12
+                  ]"
+                      :showTitle="false"
+                      itemListLayout="one"
+                      itemComponentName="idocs::document-list-item"
+                      :responsiveTopContent="['mobile' => false, 'desktop' => false]"
+                    />
+
+               
               </div>
             </div>
           </div>
         </div>
  
 </section>
-
-
-@section('scripts-owl')
-  @parent
-  
-  <script type="text/javascript">
-    $(document).ready(function () {
-      var $dropdownDocs = $('.dropdown-docs');
-      
-      $dropdownDocs.on({
-        "click": function(event) {
-          if ($(event.target).closest('.dropdown-toggle').length) {
-            $(this).data('closable', true);
-          } else {
-            $(this).data('closable', false);
-          }
-        },
-        "hide.bs.dropdown": function(event) {
-          hide = $(this).data('closable');
-          $(this).data('closable', true);
-          return hide;
-        }
-      });
-    });
-  </script>
-
-@stop
+@endif

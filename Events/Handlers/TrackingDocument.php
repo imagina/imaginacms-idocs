@@ -26,18 +26,24 @@ class TrackingDocument
           $key = $event->key;
           $user = \Auth::user();
           
-          $query = DocumentUser::where('document_id',$document->id);
-          if(isset($user->id)){
-            $query->where("user_id",$user->id);
-          }else{
-            if($key){
-              $query->where("key",$key);
+          if($document->private){
+            $query = DocumentUser::where('document_id',$document->id);
+            if(isset($user->id)){
+              $query->where("user_id",$user->id);
+            }else{
+              if($key){
+                $query->where("key",$key);
+              }
             }
+            $documentUser = $query->first();
+  
+            $documentUser->downloaded = $documentUser->downloaded+1;
+            $documentUser->save();
+  
+          }else{
+            $document->downloaded = $document->downloaded+1;
+            $document->save();
           }
-          $documentUser = $query->first();
-
-          $documentUser->downloaded = $documentUser->downloaded+1;
-          $documentUser->save();
           
         } catch (\Exception $e) {
             \Log::error($e->getMessage());

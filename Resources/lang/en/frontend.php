@@ -1,7 +1,8 @@
 <?php
 
 return [
-    
-    'myDocuments'=> 'My Documents'
-    
+  
+  'myDocuments'=> 'Mis Documents',
+  'documents'=> 'Documents',
+
 ];

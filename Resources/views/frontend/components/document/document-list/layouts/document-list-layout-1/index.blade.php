@@ -12,7 +12,7 @@
     </div>
     <div class="col-6 col-md-2 size">
       <span class=" d-sm-block d-md-none d-lg-none"> {{trans('idocs::documents.form.size')}}</span>
-      {{round($item->file->size /1000,2)}} mb
+      {{round($item->file->size /1000000,2)}} mb
     </div>
 
     <div class="col-6 col-md-2 downloaded">
@@ -29,30 +29,3 @@
   </div>
   
 </section>
-
-
-@section('scripts-owl')
-  @parent
-  
-  <script type="text/javascript">
-    $(document).ready(function () {
-      var $dropdownDocs = $('.dropdown-docs');
-      
-      $dropdownDocs.on({
-        "click": function(event) {
-          if ($(event.target).closest('.dropdown-toggle').length) {
-            $(this).data('closable', true);
-          } else {
-            $(this).data('closable', false);
-          }
-        },
-        "hide.bs.dropdown": function(event) {
-          hide = $(this).data('closable');
-          $(this).data('closable', true);
-          return hide;
-        }
-      });
-    });
-  </script>
-
-@stop
