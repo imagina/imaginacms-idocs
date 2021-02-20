@@ -8,7 +8,9 @@ class CreateDocumentRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+      return [
+        'category_id' => 'required',
+      ];
     }
 
     public function translationRules()

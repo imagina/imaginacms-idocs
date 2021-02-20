@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Idocs\Presenters\DocumentPresenter;
 use Modules\Core\Traits\NamespacedEntity;
+use Modules\Iprofile\Entities\Department;
 use Modules\Media\Entities\File;
 use Modules\Media\Support\Traits\MediaRelation;
-
+use Illuminate\Support\Facades\Auth;
 
 class Document extends Model
 {
@@ -17,13 +18,32 @@ class Document extends Model
 
     protected $table = 'idocs__documents';
     public $translatedAttributes = ['title', 'description'];
-    protected $fillable = ['user_identification','key','email','options', 'category_id', 'user_id', 'role_id', 'status'];
-    protected $presenter = DocumentPresenter::class;
-
-    protected $casts = [
-        'options' => 'array'
+    protected $fillable = [
+      'user_identification',
+      'key',
+      'email',
+      'options',
+      'category_id',
+      'user_id',
+      'role_id',
+      'status',
+      'private'
     ];
-
+    protected $presenter = DocumentPresenter::class;
+  
+    private $auth;
+  
+    protected $casts = [
+        'options' => 'array',
+        'private' => 'boolean',
+    ];
+  
+  public function __construct(array $attributes = [])
+  {
+    $this->auth = Auth::user();
+    parent::__construct($attributes);
+  }
+  
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'idocs__document_category');
@@ -40,11 +60,23 @@ class Document extends Model
         return $this->belongsToMany("Modules\\User\\Entities\\{$driver}\\User", 'idocs__document_user', 'document_id', 'user_id')->withTimestamps();
     }
 
-    public function user()
+    public function departments()
     {
         $driver = config('asgard.user.config.driver');
-        return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
+        return $this->belongsToMany(Department::class,'idocs_document_department')->withTimestamps();
     }
+  
+  public function user()
+  {
+    $driver = config('asgard.user.config.driver');
+    return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
+  }
+  
+  
+  public function tracking()
+  {
+    return $this->hasOne(DocumentUser::class)->where('user_id',$this->auth->id ?? null);
+  }
 
     /**
      * @return mixed
@@ -64,6 +96,26 @@ class Document extends Model
         }
         return json_decode(json_encode($image));
 
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUrlAttribute()
+    {
+  
+      return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.show.document', $this->id);
+      
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getPublicUrlAttribute()
+    {
+      $tracking = $this->tracking;
+      return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.show.documentByKey', [$this->id,$tracking->key]);
+      
     }
 
     /**

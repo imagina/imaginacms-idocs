@@ -13,8 +13,20 @@ class Category extends Model
   use Translatable, MediaRelation, NamespacedEntity;
 
   protected $table = 'idocs__categories';
-  public $translatedAttributes = ['title', 'description', 'slug', 'meta_title', 'meta_description', 'meta_keywords', 'translatable_options'];
-  protected $fillable = ['parent_id', 'options', 'private'];
+  public $translatedAttributes = [
+    'title',
+    'description',
+    'slug',
+    'meta_title',
+    'meta_description',
+    'meta_keywords',
+    'translatable_options'
+  ];
+  protected $fillable = [
+    'parent_id',
+    'options',
+    'private'
+  ];
 
   /**
    * The attributes that should be casted to native types.

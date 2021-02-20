@@ -31,7 +31,8 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
             $filter = $params->filter;//Short filter
 
             if (isset($filter->private)) {
-                $query->where('private',$filter->private);
+              $authUser = \Auth::user();
+              $query->where('private',$filter->private);
             }
             //Filter by date
             if (isset($filter->date)) {
@@ -50,7 +51,12 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
                 $query->orderBy($orderByField, $orderWay);//Add order to query
             }
         }
-
+        
+       $authUser = \Auth::user();
+        if(!isset($authUser->id)){
+        
+        }
+        
         /*== FIELDS ==*/
         if (isset($params->fields) && count($params->fields))
             $query->select($params->fields);

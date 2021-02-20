@@ -46,7 +46,10 @@ return [
         'user identification'=>'User Identification',
         'document'=>'Document Number',
         'key'=>'Token Key',
-        'email'=> 'Email user send'
+        'email'=> 'Email user send',
+        'size'=> 'Size',
+        'downloads'=> 'Downloads',
+        'download'=> 'Download',
 
     ],
     'messages' => [

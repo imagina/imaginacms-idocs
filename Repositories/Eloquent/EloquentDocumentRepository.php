@@ -58,11 +58,29 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
                 $query->orderBy($orderByField, $orderWay);//Add order to query
             }
         }
+  
+        $user = $params->user ?? \Auth::user();
+    
+        if(isset($user->id)){
+          if (!isset($params->permissions['media.medias.index-all']) ||
+            (isset($params->permissions['media.medias.index-all']) &&
+              !$params->permissions['media.medias.index-all'])) {
+      
+            $query->with("users")->whereHas('users', function ($q) use ($user) {
+              $q->where('users.id', $user->id);
+            });
+        
+      }
+        }else{
+          $query->where("private",false);
+        }
+      
 
         /*== FIELDS ==*/
         if (isset($params->fields) && count($params->fields))
             $query->select($params->fields);
-
+        
+        //dd($params,$query->toSql(),$query->getBindings());
         /*== REQUEST ==*/
         if (isset($params->page) && $params->page) {
             return $query->paginate($params->take);
@@ -94,7 +112,23 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
             if (isset($filter->field))//Filter by specific field
                 $field = $filter->field;
         }
-
+  
+        $user = $params->user ?? \Auth::user();
+        
+        if(isset($user->id)){
+          if (!isset($params->permissions['media.medias.index-all']) ||
+            (isset($params->permissions['media.medias.index-all']) &&
+              !$params->permissions['media.medias.index-all'])) {
+        
+            $query->with("users")->whereHas('users', function ($q) use ($user) {
+              $q->where('users.id', $user->id);
+            });
+        
+          }
+        }else{
+            $query->where("private",false);
+        }
+      
         /*== FIELDS ==*/
         if (isset($params->fields) && count($params->fields))
             $query->select($params->fields);

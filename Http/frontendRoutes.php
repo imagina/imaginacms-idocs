@@ -3,21 +3,31 @@
 use Illuminate\Routing\Router;
 /** @var Router $router */
 
-$router->group(['prefix' =>'/documents'], function (Router $router) {
-    $locale = LaravelLocalization::setLocale() ?: App::getLocale();
-    $router->get('/', [
-        'as' => $locale.'.idocs.index',
+
+
+$router->group(['prefix' => LaravelLocalization::setLocale(),
+  'middleware' => ['localize']], function (Router $router) {
+  $locale = LaravelLocalization::setLocale() ?: App::getLocale();
+
+    $router->get(trans('idocs::routes.documents.index.publicDocuments'), [
+        'as' => $locale.'.idocs.index.public',
         'uses' => 'PublicController@index',
-        //'middleware' => 'can:idocs.categories.index'
     ]);
-    $router->get('/search', [
-        'as' =>  'idocs.document.search',
-        'uses' => 'PublicController@search'
-    ]);
-    $router->get('/{slug}', [
-        'as' =>  $locale.'.idocs.category',
-        'uses' => 'PublicController@category'
+    
+    $router->get(trans('idocs::routes.documents.index.privateDocuments'), [
+        'as' => $locale.'.idocs.index.private',
+        'uses' => 'PublicController@indexPrivate',
+        'middleware' => 'logged.in'
     ]);
 
+    $router->get(trans('idocs::routes.documents.show.document'), [
+        'as' =>  $locale.'.idocs.show.document',
+        'uses' => 'PublicController@show',
+        'middleware' => 'logged.in'
+    ]);
+    $router->get(trans('idocs::routes.documents.show.documentByKey'), [
+        'as' =>  $locale.'.idocs.show.documentByKey',
+        'uses' => 'PublicController@showByKey'
+    ]);
     
 });

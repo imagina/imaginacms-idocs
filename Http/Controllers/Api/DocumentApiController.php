@@ -5,6 +5,7 @@ namespace Modules\Idocs\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Log;
 use Mockery\CountValidator\Exception;
+use Modules\Idocs\Http\Requests\CreateDocumentRequest;
 use Modules\Idocs\Repositories\DocumentRepository;
 use Modules\Idocs\Transformers\DocumentTransformer;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
@@ -89,7 +90,10 @@ class DocumentApiController extends BaseApiController
     \DB::beginTransaction();
     try {
       $data = $request->input('attributes') ?? [];//Get data
-
+  
+      //Validate Request
+      $this->validateRequestApi(new CreateDocumentRequest($data));
+      
       //Create item
       $document = $this->document->create($data);
 

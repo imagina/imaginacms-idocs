@@ -46,7 +46,10 @@ return [
         'import document'=>'Importar documentos',
         'document'=>'Número del Documento',
         'key'=>'Clave de Validación',
-        'email'=> 'Email de envío de notificación'
+        'email'=> 'Email de envío de notificación',
+        'size'=> 'Tamaño',
+        'downloads'=> 'Descargas',
+        'download'=> 'Descargar',
 
     ],
     'messages' => [

@@ -14,14 +14,14 @@ $router->group(['prefix' => 'documents'], function (Router $router) {
   $router->get('/', [
     'as' => 'api.idocs.documents.get.items.by',
     'uses' => 'DocumentApiController@index',
-    //'middleware' => ['auth:api']
+    'middleware' => ['auth:api']
   ]);
 
   //Route show
   $router->get('/{criteria}', [
     'as' => 'api.idocs.documents.get.item',
     'uses' => 'DocumentApiController@show',
-    //'middleware' => ['auth:api']
+    'middleware' => ['auth:api']
   ]);
 
   //Route update
