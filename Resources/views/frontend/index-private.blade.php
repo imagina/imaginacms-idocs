@@ -36,8 +36,8 @@
             </div>
             
             <div class="row">
-    
-                <livewire:isite::item-list
+
+                <livewire:isite::items-list
                   moduleName="Idocs"
                   entityName="Document"
                   :params="[
@@ -48,6 +48,7 @@
                   :showTitle="false"
                   itemListLayout="one"
                   itemComponentName="idocs::document-list-item"
+                  itemComponentNamespace="Modules\Idocs\View\Components\DocumentListItem"
                   :responsiveTopContent="['mobile' => false, 'desktop' => false]"
                 />
 

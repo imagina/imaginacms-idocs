@@ -15,8 +15,10 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <livewire:isite::item-list
+                <livewire:isite::items-list
                   moduleName="Idocs"
+                  itemComponentName="idocs::category-list-item"
+                  itemComponentNamespace="Modules\Idocs\View\Components\CategoryListItem"
                   entityName="Category"
                   :params="[
 						'filter' => ['private' => false],
@@ -25,7 +27,6 @@
 					]"
                   :showTitle="false"
                   itemListLayout="one"
-                  itemComponentName="idocs::category-list-item"
                   :responsiveTopContent="['mobile' => false, 'desktop' => false]"
                 />
             </div>
