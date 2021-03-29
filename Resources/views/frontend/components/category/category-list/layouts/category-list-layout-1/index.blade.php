@@ -37,9 +37,10 @@
                       </div>
                     </div>
   
-                    <livewire:isite::item-list
+                    <livewire:isite::items-list
                       moduleName="Idocs"
                       entityName="Document"
+                      itemComponentNamespace="Modules\Idocs\View\Components\DocumentListItem"
                       :params="[
                     'filter' => ['categoryId' => $item->id],
                     'include' => [],

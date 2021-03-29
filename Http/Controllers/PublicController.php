@@ -95,15 +95,16 @@ class PublicController extends BaseApiController
       }
       
       //Break if no found item
-      if(!$document) throw new Exception('Item not found',404);
+      if(!isset($document->id)) throw new Exception('Item not found',404);
       
       $type = $document->file->mimeType;
       
       $privateDisk = config('filesystems.disks.privatemedia');
-      $path = $privateDisk["root"]. $document->mediaFiles()->file->relativePath;
+      $mediaFilesPath = config('asgard.media.config.files-path');
+      $path = $privateDisk["root"].$mediaFilesPath.$document->mediaFiles()->file->filename;
   
       event(new DocumentWasDownloaded($document,$key));
-      
+    
       return response()->file($path, [
         'Content-Type' => $type,
       ]);

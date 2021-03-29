@@ -21,7 +21,6 @@
     </div>
     <div class="col-12 col-md-2 download">
       <span class=" d-sm-block d-md-none d-lg-none"> {{trans('idocs::documents.form.download')}}</span>
-   
       <a class="ml-3 download-link" href="{{$item->public_url}}" target="_blank">
         <i class="fa fa-cloud-download" aria-hidden="true"></i>
       </a>
