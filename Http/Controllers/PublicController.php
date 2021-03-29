@@ -50,16 +50,29 @@ class PublicController extends BaseApiController
       
       //Request to Repository
       $document = $this->document->getItem($documentId, $params);
-      
+  
+      if(isset($document->id)){
+        if($document->private){
+          $user = \Auth::user();
+          if(isset($user->id)){
+            $documentUser = DocumentUser::where('user_id', $user->id)->where('document_id',$document->id)->first();
+            if(!isset($documentUser->id)) throw new Exception('Item not found',404);
+          }else{
+            throw new Exception('Item not found',404);
+          }
+          
+          
+        }
+      }
+  
       //Break if no found item
-      if(!$document) throw new Exception('Item not found',404);
-      
-     
-      
+      if(!isset($document->id)) throw new Exception('Item not found',404);
+  
       $type = $document->file->mimeType;
       
       $privateDisk = config('filesystems.disks.privatemedia');
-      $path = $privateDisk["root"]. $document->mediaFiles()->file->relativePath;
+      $mediaFilesPath = config('asgard.media.config.files-path');
+      $path = $privateDisk["root"].$mediaFilesPath. $document->mediaFiles()->file->filename;
   
       event(new DocumentWasDownloaded($document));
       
