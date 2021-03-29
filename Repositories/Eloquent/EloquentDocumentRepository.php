@@ -175,8 +175,11 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     public function create($data)
     {
         $document = $this->model->create($data);
-        
-        event(new DocumentWasCreated($document, $data));
+  
+      if (isset($data['users']))
+        $document->users()->sync(Arr::wrap($data['users']));
+  
+      event(new DocumentWasCreated($document, $data));
         return $document;
     }
 
@@ -189,7 +192,9 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     public function update($document, $data)
     {
         $document->update($data);
-        
+  
+      if (isset($data['users']))
+        $document->users()->sync(Arr::wrap($data['users']));
       
         event(new DocumentWasUpdated($document, $data));
 
