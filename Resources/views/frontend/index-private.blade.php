@@ -41,10 +41,10 @@
                   moduleName="Idocs"
                   entityName="Document"
                   :params="[
-						'filter' => [],
-						'include' => ['category'],
-						'take' => 12
-					]"
+                        'filter' => [],
+                        'include' => ['category'],
+                        'take' => 12
+                      ]"
                   :showTitle="false"
                   itemListLayout="one"
                   itemComponentName="idocs::document-list-item"

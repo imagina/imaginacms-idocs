@@ -23,7 +23,13 @@ class AddFieldsInDocumentsTable extends Migration
       Schema::table('idocs__document_user', function (Blueprint $table) {
         $table->string('key')->nullable();
         $table->integer('downloaded')->default(0);
-     
+    
+      });
+  
+  
+      Schema::table('idocs__categories', function (Blueprint $table) {
+        $table->integer('parent_id')->nullable()->change();
+    
       });
     }
 

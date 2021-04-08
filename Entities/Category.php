@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\NamespacedEntity;
 use Modules\Media\Entities\File;
 use Modules\Media\Support\Traits\MediaRelation;
+use Kalnoy\Nestedset\NodeTrait;
 
 class Category extends Model
 {
-  use Translatable, MediaRelation, NamespacedEntity;
-
+  use Translatable, MediaRelation, NamespacedEntity, NodeTrait;
+  
   protected $table = 'idocs__categories';
   public $translatedAttributes = [
     'title',
@@ -27,7 +28,7 @@ class Category extends Model
     'options',
     'private'
   ];
-
+  
   /**
    * The attributes that should be casted to native types.
    *
@@ -37,8 +38,8 @@ class Category extends Model
     'options' => 'array',
     'private' => 'boolean'
   ];
-
-
+  
+  
   /**
    * Relation with category parent
    * @return mixed
@@ -47,7 +48,7 @@ class Category extends Model
   {
     return $this->belongsTo(Category::class, 'parent_id');
   }
-
+  
   /**
    * Relation with categories children
    * @return mixed
@@ -56,7 +57,7 @@ class Category extends Model
   {
     return $this->hasMany(Category::class, 'parent_id');
   }
-
+  
   /**
    * Relation with documents
    * @return mixed
@@ -65,7 +66,7 @@ class Category extends Model
   {
     return $this->belongsToMany(Document::class, 'idocs__document_category');
   }
-
+  
   /**
    * @param $value
    * @return mixed
@@ -74,17 +75,19 @@ class Category extends Model
   {
     return json_decode($value);
   }
-
+  
   /**
    * @return mixed
    */
   public function getUrlAttribute()
   {
-
-    return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.category', [$this->slug]);
-
+    if($this->private)
+      return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.index.private.category', [$this->slug]);
+    else
+      return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.index.public.category', [$this->slug]);
+    
   }
-
+  
   /*
   |--------------------------------------------------------------------------
   | SCOPES
@@ -99,5 +102,31 @@ class Category extends Model
     return $query->where('depth', '1')
       ->orWhere('depth', null)
       ->orderBy('lft', 'ASC');
+  }
+  
+  public function getLftName()
+  {
+    return 'lft';
+  }
+  
+  public function getRgtName()
+  {
+    return 'rgt';
+  }
+  
+  public function getDepthName()
+  {
+    return 'depth';
+  }
+  
+  public function getParentIdName()
+  {
+    return 'parent_id';
+  }
+  
+  // Specify parent id attribute mutator
+  public function setParentAttribute($value)
+  {
+    $this->setParentIdAttribute($value);
   }
 }

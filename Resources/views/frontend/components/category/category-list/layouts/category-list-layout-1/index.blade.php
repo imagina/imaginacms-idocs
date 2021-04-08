@@ -7,8 +7,10 @@
               <button class="btn btn-link px-2 py-0 w-100 text-left" data-toggle="collapse" data-target="#collapseOne{{$item->id}}"
                       aria-expanded="true" aria-controls="collapseOne" type="button">
                 <h5 class="card-title font-weight-bold mb-0">
-                {{$item->title}}
+                {{$item->title}} &nbsp;
+                  <a href="{{$item->url}}"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                 </h5>
+               
               </button>
   
                 <button class="btn btn-collapse px-2 py-0 float-right" data-toggle="collapse" data-target="#collapseOne{{$item->id}}"

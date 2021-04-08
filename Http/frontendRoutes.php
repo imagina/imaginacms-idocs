@@ -20,6 +20,17 @@ $router->group(['prefix' => LaravelLocalization::setLocale(),
         'middleware' => 'logged.in'
     ]);
 
+    $router->get(trans('idocs::routes.documents.index.publicCategory'), [
+        'as' => $locale.'.idocs.index.public.category',
+        'uses' => 'PublicController@index',
+    ]);
+
+    $router->get(trans('idocs::routes.documents.index.privateCategory'), [
+        'as' => $locale.'.idocs.index.private.category',
+        'uses' => 'PublicController@indexPrivate',
+        'middleware' => 'logged.in'
+    ]);
+
     $router->get(trans('idocs::routes.documents.show.document'), [
         'as' =>  $locale.'.idocs.show.document',
         'uses' => 'PublicController@show',

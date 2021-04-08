@@ -25,14 +25,23 @@ class PublicController extends BaseApiController
         $this->category = $category;
     }
 
-    public function index()
+    public function index(Request $request, $categorySlug = null)
     {
 
         $tpl = "idocs::frontend.index";
         $ttpl = "idocs.index";
 
+        $category = null;
+        
+        if(!empty($categorySlug)){
+          $params = ["filter" => ["field" => "slug", "locale" => \App::getLocale(), "private" => false]];
+          $category = $this->category->getItem($categorySlug,json_decode(json_encode($params)));
+        }
+        
         if (view()->exists($ttpl)) $tpl = $ttpl;
-        return view($tpl);
+        
+        
+        return view($tpl,compact('category'));
     }
   
   
@@ -127,16 +136,24 @@ class PublicController extends BaseApiController
     }
   }
       
-    public function indexPrivate()
+    public function indexPrivate(Request $request, $categorySlug = null)
     {
 
         $categories = $this->category->getItemsBy(json_decode(json_encode(['filter' => ['private' => 0], 'page' => $request->page ?? 1, 'take' => setting('idocs::docs-per-page'), 'include' => ['children']])));
-
+        
         $tpl = "idocs::frontend.index-private";
         $ttpl = "idocs.index-private";
-
-        if (view()->exists($ttpl)) $tpl = $ttpl;
-        return view($tpl, compact('categories'));
+  
+      $category = null;
+  
+      if(!empty($categorySlug)){
+        $params = ["filter" => ["field" => "slug", "locale" => \App::getLocale(), "private" => true]];
+        $category = $this->category->getItem($categorySlug,json_decode(json_encode($params)));
+      }
+  
+      
+      if (view()->exists($ttpl)) $tpl = $ttpl;
+        return view($tpl, compact('categories','category'));
     }
 
     public function category($categorySlug)
