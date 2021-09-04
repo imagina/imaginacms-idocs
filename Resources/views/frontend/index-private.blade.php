@@ -19,6 +19,7 @@
 @section('profileContent')
     <div id="privateDocumentsAll" class="private-documents-all">
         <div class="container">
+
             <div class="row head d-none d-md-flex">
                 <div class="col-12 col-md-6 title-description">
                     <span>{{trans('idocs::documents.form.title')}}</span>
@@ -26,7 +27,7 @@
                 <div class="col-12 col-md-2 size">
                     <span> {{trans('idocs::documents.form.size')}}</span>
                 </div>
-        
+
                 <div class="col-12 col-md-2 downloaded">
                     <span> {{trans('idocs::documents.form.downloads')}}</span>
                 </div>
@@ -34,24 +35,25 @@
                     <span> {{trans('idocs::documents.form.download')}}</span>
                 </div>
             </div>
-            
-            <div class="row">
 
-                <livewire:isite::items-list
-                  moduleName="Idocs"
-                  entityName="Document"
-                  :params="[
+            <div class="row">
+                <div class="col-12">
+                    <livewire:isite::items-list
+                            moduleName="Idocs"
+                            entityName="Document"
+                            :params="[
                         'filter' => [],
                         'include' => ['category'],
                         'take' => 12
                       ]"
-                  :showTitle="false"
-                  itemListLayout="one"
-                  itemComponentName="idocs::document-list-item"
-                  itemComponentNamespace="Modules\Idocs\View\Components\DocumentListItem"
-                  :responsiveTopContent="['mobile' => false, 'desktop' => false]"
-                />
+                            :showTitle="false"
+                            itemListLayout="one"
+                            itemComponentName="idocs::document-list-item"
+                            itemComponentNamespace="Modules\Idocs\View\Components\DocumentListItem"
+                            :responsiveTopContent="['mobile' => false, 'desktop' => false]"
+                    />
 
+                </div>
             </div>
         </div>
     </div>
