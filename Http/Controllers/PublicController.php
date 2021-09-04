@@ -69,8 +69,6 @@ class PublicController extends BaseApiController
           }else{
             throw new Exception('Item not found',404);
           }
-          
-          
         }
       }
   
