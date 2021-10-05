@@ -42,9 +42,8 @@ class IdocsServiceProvider extends ServiceProvider
   
   public function boot()
   {
-    $this->publishConfig('idocs', 'permissions');
+    $this->mergeConfigFrom($this->getModuleConfigFilePath('idocs', 'permissions'), "asgard.idocs.permissions");
     $this->publishConfig('idocs', 'config');
-    $this->publishConfig('idocs', 'settings');
     $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
   
     $this->registerComponents();
