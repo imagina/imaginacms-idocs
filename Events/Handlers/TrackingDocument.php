@@ -35,10 +35,13 @@ class TrackingDocument
                 $query->where("key",$key);
               }
             }
+            
             $documentUser = $query->first();
   
-            $documentUser->downloaded = $documentUser->downloaded+1;
-            $documentUser->save();
+            if(isset($documentUser->id)){
+              $documentUser->downloaded = $documentUser->downloaded+1;
+              $documentUser->save();
+            }
   
           //Tracking downloads to master document
           $document->downloaded = $document->downloaded+1;

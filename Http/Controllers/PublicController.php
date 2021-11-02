@@ -12,6 +12,7 @@ use Modules\Idocs\Repositories\CategoryRepository;
 use Modules\Idocs\Repositories\DocumentRepository;
 use Route;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+use Illuminate\Support\Facades\Storage;
 
 class PublicController extends BaseApiController
 {
@@ -101,6 +102,7 @@ class PublicController extends BaseApiController
   public function showByKey(Request $request, $documentId, $key )
   {
     try {
+      
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
       
@@ -113,16 +115,16 @@ class PublicController extends BaseApiController
           if(!$documentUser) throw new Exception('Item not found',404);
         }
       }
-      
+  
       //Break if no found item
       if(!isset($document->id)) throw new Exception('Item not found',404);
       
       $type = $document->file->mimeType;
-      
-      $privateDisk = config('filesystems.disks.privatemedia');
+    
+    
       $mediaFilesPath = config('asgard.media.config.files-path');
-      $path = $privateDisk["root"].$mediaFilesPath.$document->mediaFiles()->file->filename;
-  
+      $path = Storage::disk("privatemedia")->path($document->mediaFiles()->file->relativePath);
+      
       event(new DocumentWasDownloaded($document,$key));
     
       return response()->file($path, [
