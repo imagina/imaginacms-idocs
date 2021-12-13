@@ -86,6 +86,7 @@ class PublicController extends BaseApiController
       
       return response()->file($path, [
         'Content-Type' => $type,
+        'Content-disposition' => 'attachment; filename="'.($document->mediaFiles()->file->filename).'"',
       ]);
       
     } catch (\Exception $e) {
@@ -124,11 +125,12 @@ class PublicController extends BaseApiController
     
       $mediaFilesPath = config('asgard.media.config.files-path');
       $path = Storage::disk("privatemedia")->path($document->mediaFiles()->file->relativePath);
-      
+     
       event(new DocumentWasDownloaded($document,$key));
     
       return response()->file($path, [
         'Content-Type' => $type,
+        'Content-disposition' => 'attachment; filename="'.($document->mediaFiles()->file->filename).'"',
       ]);
       
     } catch (\Exception $e) {
