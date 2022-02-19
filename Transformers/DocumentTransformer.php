@@ -14,6 +14,7 @@ class DocumentTransformer extends JsonResource
       'id' => $this->when($this->id, $this->id),
       'title' => $this->when($this->title, $this->title),
       'key' => $this->when($this->key, $this->key),
+      'url' => $this->when($this->url, $this->url),
       'downloaded' => $this->when($this->downloaded, $this->downloaded),
       'description' => $this->description ?? '',
       'size' => round($this->file->size/1000000,2),
