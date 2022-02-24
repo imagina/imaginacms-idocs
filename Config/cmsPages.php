@@ -2,21 +2,6 @@
 
 return [
   'admin' => [
-    "documents" => [
-      "permission" => "idocs.documents.manage",
-      "activated" => true,
-      "authenticated" => true,
-      "path" => "/document/documents",
-      "name" => "qdocument.admin.documents",
-      "crud" => "qdocument/_crud/documents",
-      "page" => "qcrud/_pages/admin/crudPage",
-      "layout" => "qsite/_layouts/master.vue",
-      "title" => "idocs.cms.sidebar.adminDocuments",
-      "icon" => "fas fa-folder-open",
-      "subHeader" => [
-        "refresh" => true
-      ]
-    ],
     "categories" => [
       "permission" => "idocs.categories.manage",
       "activated" => true,
@@ -33,22 +18,22 @@ return [
       ]
     ]
   ],
-  'panel' => [
+  'panel' => [],
+  'main' => [
     "documents" => [
       "permission" => "idocs.documents.manage",
       "activated" => true,
       "authenticated" => true,
       "path" => "/document/documents",
-      "name" => "qdocument.panel.documents",
+      "name" => "qdocument.admin.documents",
       "crud" => "qdocument/_crud/documents",
       "page" => "qcrud/_pages/admin/crudPage",
-      "layout" => "qsite/_layouts/master",
-      "title" => "idocs.cms.sidebar.panelDocuments",
+      "layout" => "qsite/_layouts/master.vue",
+      "title" => "idocs.cms.sidebar.adminDocuments",
       "icon" => "fas fa-folder-open",
       "subHeader" => [
         "refresh" => true
       ]
-    ]
-  ],
-  'main' => []
+    ],
+  ]
 ];
