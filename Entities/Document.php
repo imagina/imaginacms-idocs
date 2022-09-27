@@ -138,7 +138,7 @@ class Document extends Model
     {
       $tracking = $this->tracking;
      
-      return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.show.documentByKey', [$this->id,$tracking->key]);
+      return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.show.documentByKey', [$this->id,$tracking->key ?? $this->key]);
       
     }
 

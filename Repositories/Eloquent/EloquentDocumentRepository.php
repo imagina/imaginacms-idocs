@@ -137,6 +137,10 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
       
       if (isset($filter->field))//Filter by specific field
         $field = $filter->field;
+      
+      if(isset($filter->key) and !empty($filter->key)){
+        $query->where("key", $filter->key);
+      }
     }
     
     $user = $params->user ?? \Auth::user();
@@ -152,7 +156,10 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
         $query->where("status", 1);
       }
     } else {
-      $query->where("private", false);
+      if(!isset($filter->key)){
+        $query->where("private", false);
+      }
+      
       $query->where("status", 1);
     }
     
@@ -160,6 +167,7 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
     
+    //dd($query->toSql(),$query->getBindings(),$query->first());
     /*== REQUEST ==*/
     return $query->where($field ?? 'id', $criteria)->first();
   }
