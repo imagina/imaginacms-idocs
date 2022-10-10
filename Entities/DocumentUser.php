@@ -10,36 +10,25 @@ use Modules\Core\Traits\NamespacedEntity;
 use Modules\Iprofile\Entities\Department;
 use Modules\Media\Entities\File;
 use Modules\Media\Support\Traits\MediaRelation;
-
+use Illuminate\Support\Str;
 
 class DocumentUser extends Model
 {
-    use  NamespacedEntity;
-
-    protected $table = 'idocs__document_user';
-    protected $fillable = [
-      'document_id',
-      'user_id',
-      'key',
-      'downloaded'
-    ];
-
-
-
-
-public function setKeyAttribute($value)
-{
-  $key = '';$length=50;
-  list($usec, $sec) = explode(' ', microtime());
-  mt_srand((float) $sec + ((float) $usec * 100000));
+  use  NamespacedEntity;
   
-  $inputs = array_merge(range('z','a'),range(0,9),range('A','Z'));
+  protected $table = 'idocs__document_user';
+  protected $fillable = [
+    'document_id',
+    'user_id',
+    'key',
+    'downloaded'
+  ];
   
-  for($i=0; $i<$length; $i++)
+  
+  public function setKeyAttribute($value)
   {
-    $key .= $inputs{mt_rand(0,61)};
+    $key = Str::random(48);
+    
+    $this->attributes['key'] = $key;
   }
-  
-  $this->attributes['key'] = $key;
-}
 }
