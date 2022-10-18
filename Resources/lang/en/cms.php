@@ -1,7 +1,7 @@
 <?php
 
 return [
-  "sideba" => [
+  "sidebar" => [
     "adminGroup" => "Documents",
     "adminDocuments" => "List Documents",
     "adminCategories" => "Document Categories",
