@@ -33,8 +33,7 @@ $router->group(['prefix' => LaravelLocalization::setLocale(),
 
     $router->get(trans('idocs::routes.documents.show.document'), [
         'as' =>  $locale.'.idocs.show.document',
-        'uses' => 'PublicController@show',
-        'middleware' => 'logged.in'
+        'uses' => 'PublicController@show'
     ]);
     $router->get(trans('idocs::routes.documents.show.documentByKey'), [
         'as' =>  $locale.'.idocs.show.documentByKey',

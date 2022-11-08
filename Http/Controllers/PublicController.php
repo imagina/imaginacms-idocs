@@ -107,16 +107,25 @@ class PublicController extends BaseApiController
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
       
+      //se intenta buscar el documento con el key que coincida con el key en la entidad document
+      $params->filter->key = $key;
       //Request to Repository
       $document = $this->document->getItem($documentId, $params);
-
-      if(isset($document->id)){
-        if($document->private){
-          $documentUser = DocumentUser::where('key', $key)->where('document_id',$document->id ?? null)->first();
-          if(!$documentUser) throw new Exception('Item not found',404);
+      //si se consigue el documento quiere decir que a pesar de ser privado, la solicitud se está haciendo con el key público del documento así que se da acceso al documento
+   
+      //si no se consigue con el key pricipal se intenta buscar de nuevo sin verificar el key principal para pasar a verificar si el key pertenece a un user del sistema asignado al documento
+      if(!isset($document->id)){
+        $params->filter->key = null;
+        $document = $this->document->getItem($documentId, $params);
+      
+        if(isset($document->id)){
+          if($document->private){
+            $documentUser = DocumentUser::where('key', $key)->where('document_id',$document->id ?? null)->first();
+            if(!$documentUser) throw new Exception('Item not found',404);
+          }
         }
       }
-  
+      
       //Break if no found item
       if(!isset($document->id)) throw new Exception('Item not found',404);
       
@@ -125,7 +134,7 @@ class PublicController extends BaseApiController
     
       $mediaFilesPath = config('asgard.media.config.files-path');
       $path = Storage::disk("privatemedia")->path($document->mediaFiles()->file->relativePath);
-     
+
       event(new DocumentWasDownloaded($document,$key));
     
       return response()->file($path, [
