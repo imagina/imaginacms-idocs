@@ -16,6 +16,7 @@ class IdocsDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        $this->call(IdocsModuleTableSeeder::class);
         // $this->call("OthersTableSeeder");
     }
 }
