@@ -5,8 +5,7 @@ use Illuminate\Routing\Router;
 
 
 
-$router->group(['prefix' => LaravelLocalization::setLocale(),
-  'middleware' => ['localize']], function (Router $router) {
+$router->group(['middleware' => ['localize']], function (Router $router) {
   $locale = LaravelLocalization::setLocale() ?: App::getLocale();
 
     $router->get(trans('idocs::routes.documents.index.publicDocuments'), [
