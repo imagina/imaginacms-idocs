@@ -2,7 +2,7 @@
 
 return [
   'name' => 'Idocs',
-  
+
   /*
   |--------------------------------------------------------------------------
   | Dynamic fields
@@ -41,7 +41,7 @@ return [
       ],
     ]
   ],
-  
+
   /*
  |--------------------------------------------------------------------------
  | Dynamic relations
@@ -53,7 +53,7 @@ return [
 //            return $self->belongsTo(PageExtension::class, 'id', 'page_id')->first();
 //        }
   ],
-  
+
   /*
  |--------------------------------------------------------------------------
  | Define config to the mediaFillable trait for each entity
@@ -68,8 +68,8 @@ return [
       'iconimage' => 'single'
     ]
   ],
-  
-  
+
+
   /*
    |--------------------------------------------------------------------------
    | Define the options to the user menu component
@@ -89,7 +89,12 @@ return [
       "icon" => "fa fa-folder-open-o",
       "onlyShowInTheMenuOfTheIndexProfilePage" => true
     ],
- 
+
   ],
 
+  /*Translate keys of each entity. Based on the permission string*/
+  'documentation' => [
+    'documents' => "idocs::cms.documentation.documents",
+    'categories' => "idocs::cms.documentation.categories"
+  ]
 ];
