@@ -13,9 +13,11 @@ use Modules\Media\Support\Traits\MediaRelation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+use Modules\Core\Support\Traits\AuditTrait;
+
 class Document extends Model
 {
-    use Translatable, MediaRelation, NamespacedEntity, PresentableTrait;
+    use Translatable, MediaRelation, NamespacedEntity, PresentableTrait, AuditTrait;
 
     protected $table = 'idocs__documents';
     public $translatedAttributes = ['title', 'description'];

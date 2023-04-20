@@ -9,9 +9,11 @@ use Modules\Media\Entities\File;
 use Modules\Media\Support\Traits\MediaRelation;
 use Kalnoy\Nestedset\NodeTrait;
 
+use Modules\Core\Support\Traits\AuditTrait;
+
 class Category extends Model
 {
-  use Translatable, MediaRelation, NamespacedEntity, NodeTrait;
+  use Translatable, MediaRelation, NamespacedEntity, NodeTrait, AuditTrait;
   
   protected $table = 'idocs__categories';
   public $translatedAttributes = [
