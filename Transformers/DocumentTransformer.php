@@ -5,6 +5,7 @@ namespace Modules\Idocs\Transformers;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Idocs\Transformers\CategoryTransformer;
 use Modules\Iprofile\Transformers\UserTransformer;
+use Modules\Isite\Transformers\RevisionTransformer;
 
 class DocumentTransformer extends JsonResource
 {
@@ -30,7 +31,8 @@ class DocumentTransformer extends JsonResource
       'users' => UserTransformer::collection($this->whenLoaded('users')),
       'mediaFiles' => $this->mediaFiles(),
       'createdAt' => $this->when($this->created_at, $this->created_at),
-      'updatedAt' => $this->when($this->updated_at, $this->updated_at)
+      'updatedAt' => $this->when($this->updated_at, $this->updated_at),
+      'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
     ];
 
     $filter = json_decode($request->filter);
