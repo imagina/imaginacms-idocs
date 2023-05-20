@@ -4,6 +4,7 @@ namespace Modules\Idocs\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\User\Transformers\UserProfileTransformer;
+use Modules\Isite\Transformers\RevisionTransformer;
 
 class CategoryTransformer extends JsonResource
 {
@@ -21,7 +22,8 @@ class CategoryTransformer extends JsonResource
       'parent' => new CategoryTransformer($this->whenLoaded('parent')),
       'parentId' => $this->parent_id,
       'children' => CategoryTransformer::collection($this->whenLoaded('children')),
-      'mediaFiles' => $this->mediaFiles()
+      'mediaFiles' => $this->mediaFiles(),
+      'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
     ];
 
     $filter = json_decode($request->filter);

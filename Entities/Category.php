@@ -8,14 +8,20 @@ use Modules\Core\Traits\NamespacedEntity;
 use Modules\Media\Entities\File;
 use Modules\Media\Support\Traits\MediaRelation;
 use Kalnoy\Nestedset\NodeTrait;
+use Modules\Isite\Traits\RevisionableTrait;
 
 use Modules\Core\Support\Traits\AuditTrait;
 
 class Category extends Model
 {
-  use Translatable, MediaRelation, NamespacedEntity, NodeTrait, AuditTrait;
-  
+  use Translatable, MediaRelation, NamespacedEntity, NodeTrait, AuditTrait, RevisionableTrait;
+
+  public $transformer = 'Modules\Idocs\Transformers\CategoryTransformer';
+  public $entity = 'Modules\Idocs\Entities\Category';
+  public $repository = 'Modules\Idocs\Repositories\CategoryRepository';
+
   protected $table = 'idocs__categories';
+
   public $translatedAttributes = [
     'title',
     'description',
@@ -30,7 +36,7 @@ class Category extends Model
     'options',
     'private'
   ];
-  
+
   /**
    * The attributes that should be casted to native types.
    *
@@ -40,8 +46,8 @@ class Category extends Model
     'options' => 'array',
     'private' => 'boolean'
   ];
-  
-  
+
+
   /**
    * Relation with category parent
    * @return mixed
@@ -50,7 +56,7 @@ class Category extends Model
   {
     return $this->belongsTo(Category::class, 'parent_id');
   }
-  
+
   /**
    * Relation with categories children
    * @return mixed
@@ -59,7 +65,7 @@ class Category extends Model
   {
     return $this->hasMany(Category::class, 'parent_id');
   }
-  
+
   /**
    * Relation with documents
    * @return mixed
@@ -68,7 +74,7 @@ class Category extends Model
   {
     return $this->belongsToMany(Document::class, 'idocs__document_category');
   }
-  
+
   /**
    * @param $value
    * @return mixed
@@ -77,19 +83,19 @@ class Category extends Model
   {
     return json_decode($value);
   }
-  
+
   /**
    * @return mixed
    */
   public function getUrlAttribute()
   {
-    if($this->private)
+    if ($this->private)
       return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.index.private.category', [$this->slug]);
     else
       return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.index.public.category', [$this->slug]);
-    
+
   }
-  
+
   /*
   |--------------------------------------------------------------------------
   | SCOPES
@@ -105,27 +111,27 @@ class Category extends Model
       ->orWhere('depth', null)
       ->orderBy('lft', 'ASC');
   }
-  
+
   public function getLftName()
   {
     return 'lft';
   }
-  
+
   public function getRgtName()
   {
     return 'rgt';
   }
-  
+
   public function getDepthName()
   {
     return 'depth';
   }
-  
+
   public function getParentIdName()
   {
     return 'parent_id';
   }
-  
+
   // Specify parent id attribute mutator
   public function setParentAttribute($value)
   {
