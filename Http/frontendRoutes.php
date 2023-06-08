@@ -32,7 +32,8 @@ $router->group(['middleware' => ['localize']], function (Router $router) {
 
     $router->get(trans('idocs::routes.documents.show.document'), [
         'as' =>  $locale.'.idocs.show.document',
-        'uses' => 'PublicController@show'
+        'uses' => 'PublicController@show',
+        'middleware' => 'optional-auth'
     ]);
     $router->get(trans('idocs::routes.documents.show.documentByKey'), [
         'as' =>  $locale.'.idocs.show.documentByKey',
