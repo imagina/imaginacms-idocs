@@ -18,7 +18,7 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     $query = $this->model->query();
 
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include ?? [])) {//If Request all relationships
+    if (in_array('*', ($params->include ?? []))) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships
@@ -127,7 +127,7 @@ class EloquentDocumentRepository extends EloquentBaseRepository implements Docum
     $query = $this->model->query();
 
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include ?? [])) {//If Request all relationships
+    if (in_array('*', ($params->include ?? []))) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships

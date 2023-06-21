@@ -19,7 +19,7 @@ class DocumentTransformer extends JsonResource
       'publicUrl' => $this->when($this->public_url, $this->public_url),
       'downloaded' => $this->when($this->downloaded, $this->downloaded),
       'description' => $this->description ?? '',
-      'size' => round($this->file->size ?? 0/1000000,2),
+      'size' => round(($this->file->size ?? 0)/1000000,2),
       'mimeType' => $this->file->mimeType ?? '',
       'options' => $this->when($this->options, $this->options),
       'status' => $this->when(isset($this->status), $this->status ? '1': '0'),
