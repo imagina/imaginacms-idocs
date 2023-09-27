@@ -1,3 +1,4 @@
+
 <section id="idocsDocumentItemLayout1" class="idocs-document-item-layout">
 
   <div class="row item">
@@ -7,13 +8,11 @@
       <div class="description">
         {!!$item->description!!}
       </div>
-
+      
     </div>
     <div class="col-6 col-md-2 size">
       <span class=" d-sm-block d-md-none d-lg-none"> {{trans('idocs::documents.form.size')}}</span>
-      @if(isset($item->file->size) && !is_null($item->file->size))
-        {{round($item->file->size /1000000,2)}} mb
-      @endif
+      {{round($item->file->size /1000000,2)}} mb
     </div>
 
     <div class="col-6 col-md-2 downloaded">
@@ -27,5 +26,5 @@
       </a>
     </div>
   </div>
-
+  
 </section>
