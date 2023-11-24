@@ -15,10 +15,11 @@ use Illuminate\Support\Str;
 use Modules\Isite\Traits\RevisionableTrait;
 
 use Modules\Core\Support\Traits\AuditTrait;
+use Modules\Iqreable\Traits\IsQreable;
 
 class Document extends Model
 {
-  use Translatable, MediaRelation, NamespacedEntity, PresentableTrait, AuditTrait, RevisionableTrait;
+  use Translatable, MediaRelation, NamespacedEntity, PresentableTrait, AuditTrait, RevisionableTrait, IsQreable;
 
   public $transformer = 'Modules\Idocs\Transformers\DocumentTransformer';
   public $entity = 'Modules\Idocs\Entities\Document';

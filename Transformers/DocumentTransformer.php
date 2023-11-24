@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Idocs\Transformers\CategoryTransformer;
 use Modules\Iprofile\Transformers\UserTransformer;
 use Modules\Isite\Transformers\RevisionTransformer;
+use Modules\Iqreable\Transformers\QrTransformer;
 
 class DocumentTransformer extends JsonResource
 {
@@ -33,6 +34,7 @@ class DocumentTransformer extends JsonResource
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),
       'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
+      'qrs' => QrTransformer::collection($this->whenLoaded('qrs')),
     ];
 
     $filter = json_decode($request->filter);
