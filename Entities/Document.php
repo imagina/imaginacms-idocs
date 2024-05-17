@@ -13,10 +13,11 @@ use Modules\Idocs\Presenters\DocumentPresenter;
 use Modules\Iprofile\Entities\Department;
 use Modules\Isite\Traits\RevisionableTrait;
 use Modules\Media\Support\Traits\MediaRelation;
+use Modules\Iqreable\Traits\IsQreable;
 
 class Document extends Model
 {
-    use Translatable, MediaRelation, NamespacedEntity, PresentableTrait, AuditTrait, RevisionableTrait;
+    use Translatable, MediaRelation, NamespacedEntity, PresentableTrait, AuditTrait, RevisionableTrait, IsQreable;
 
     public $transformer = 'Modules\Idocs\Transformers\DocumentTransformer';
 
