@@ -2,8 +2,8 @@
 
 namespace Modules\Idocs\Repositories\Cache;
 
-use Modules\Idocs\Repositories\CategoryRepository;
 use Modules\Core\Repositories\Cache\BaseCacheDecorator;
+use Modules\Idocs\Repositories\CategoryRepository;
 
 class CacheCategoryDecorator extends BaseCacheDecorator implements CategoryRepository
 {
@@ -21,13 +21,10 @@ class CacheCategoryDecorator extends BaseCacheDecorator implements CategoryRepos
         });
     }
 
-    public function getItem($criteria, $params)
+    public function getItem($criteria, $params = false)
     {
         return $this->remember(function () use ($criteria, $params) {
             return $this->repository->getItem($criteria, $params);
         });
     }
-
-
-
 }

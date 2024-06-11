@@ -2,8 +2,8 @@
 
 namespace Modules\Idocs\Repositories\Cache;
 
-use Modules\Idocs\Repositories\DocumentRepository;
 use Modules\Core\Repositories\Cache\BaseCacheDecorator;
+use Modules\Idocs\Repositories\DocumentRepository;
 
 class CacheDocumentDecorator extends BaseCacheDecorator implements DocumentRepository
 {
@@ -21,7 +21,7 @@ class CacheDocumentDecorator extends BaseCacheDecorator implements DocumentRepos
         });
     }
 
-    public function getItem($criteria, $params)
+    public function getItem($criteria, $params = false)
     {
         return $this->remember(function () use ($criteria, $params) {
             return $this->repository->getItem($criteria, $params);
@@ -29,7 +29,6 @@ class CacheDocumentDecorator extends BaseCacheDecorator implements DocumentRepos
     }
 
     /**
-     * @param $id
      * @return mixed
      */
     public function whereCategory($id)

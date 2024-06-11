@@ -2,15 +2,18 @@
 
 namespace Modules\Idocs\Providers;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Events\LoadingBackendTranslations;
+use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Idocs\Events\Handlers\RegisterIdocsSidebar;
 
 class IdocsServiceProvider extends ServiceProvider
 {
     use CanPublishConfiguration;
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -20,8 +23,6 @@ class IdocsServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -29,30 +30,29 @@ class IdocsServiceProvider extends ServiceProvider
         $this->app['events']->listen(BuildingSidebar::class, RegisterIdocsSidebar::class);
 
         $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            $event->load('categories', array_dot(trans('idocs::categories')));
-            $event->load('documents', array_dot(trans('idocs::documents')));
+            $event->load('categories', Arr::dot(trans('idocs::categories')));
+            $event->load('documents', Arr::dot(trans('idocs::documents')));
             // append translations
-
-
         });
     }
 
     public function boot()
     {
-        $this->publishConfig('idocs', 'permissions');
+        $this->mergeConfigFrom($this->getModuleConfigFilePath('idocs', 'permissions'), 'asgard.idocs.permissions');
+        $this->mergeConfigFrom($this->getModuleConfigFilePath('idocs', 'cmsPages'), 'asgard.idocs.cmsPages');
+        $this->mergeConfigFrom($this->getModuleConfigFilePath('idocs', 'cmsSidebar'), 'asgard.idocs.cmsSidebar');
         $this->publishConfig('idocs', 'config');
-        $this->publishConfig('idocs', 'settings');
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        //$this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+
+        $this->registerComponents();
     }
 
     /**
      * Get the services provided by the provider.
-     *
-     * @return array
      */
     public function provides()
     {
-        return array();
+        return [];
     }
 
     private function registerBindings()
@@ -81,8 +81,14 @@ class IdocsServiceProvider extends ServiceProvider
                 return new \Modules\Idocs\Repositories\Cache\CacheDocumentDecorator($repository);
             }
         );
-// add bindings
+        // add bindings
+    }
 
-
+    /**
+     * Register Blade components
+     */
+    private function registerComponents()
+    {
+        Blade::componentNamespace("Modules\Idocs\View\Components", 'idocs');
     }
 }

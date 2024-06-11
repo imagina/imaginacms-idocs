@@ -17,49 +17,70 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
         $query = $this->model->query();
 
         /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
+        if (in_array('*', $params->include ?? [])) {//If Request all relationships
             $query->with([]);
         } else {//Especific relationships
-            $includeDefault = [];//Default relationships
-            if (isset($params->include))//merge relations with default relationships
+            $includeDefault = []; //Default relationships
+            if (isset($params->include)) {//merge relations with default relationships
                 $includeDefault = array_merge($includeDefault, $params->include);
-            $query->with($includeDefault);//Add Relationships to query
+            }
+            $query->with($includeDefault); //Add Relationships to query
         }
 
         /*== FILTERS ==*/
         if (isset($params->filter)) {
-            $filter = $params->filter;//Short filter
+            $filter = $params->filter; //Short filter
 
             if (isset($filter->private)) {
-                $query->where('private',$filter->private);
+                $query->where('private', $filter->private);
+            }
+
+            if (isset($filter->parentId)) {
+                $query->where('parent_id', $filter->parentId);
             }
             //Filter by date
             if (isset($filter->date)) {
-                $date = $filter->date;//Short filter date
+                $date = $filter->date; //Short filter date
                 $date->field = $date->field ?? 'created_at';
-                if (isset($date->from))//From a date
+                if (isset($date->from)) {//From a date
                     $query->whereDate($date->field, '>=', $date->from);
-                if (isset($date->to))//to a date
+                }
+                if (isset($date->to)) {//to a date
                     $query->whereDate($date->field, '<=', $date->to);
+                }
             }
 
             //Order by
             if (isset($filter->order)) {
-                $orderByField = $filter->order->field ?? 'created_at';//Default field
-                $orderWay = $filter->order->way ?? 'desc';//Default way
-                $query->orderBy($orderByField, $orderWay);//Add order to query
+                $orderByField = $filter->order->field ?? 'created_at'; //Default field
+                $orderWay = $filter->order->way ?? 'desc'; //Default way
+                $query->orderBy($orderByField, $orderWay); //Add order to query
+            }
+        }
+
+        $authUser = \Auth::user();
+        if (! isset($authUser->id)) {
+            $query->where('private', false);
+        } else {
+            if (! isset($params->permissions['media.medias.index-all']) ||
+              (isset($params->permissions['media.medias.index-all']) &&
+                ! $params->permissions['media.medias.index-all'])) {
+                $query->where('private', false);
             }
         }
 
         /*== FIELDS ==*/
-        if (isset($params->fields) && count($params->fields))
+        if (isset($params->fields) && count($params->fields)) {
             $query->select($params->fields);
+        }
 
+        //dd($params,$query->toSql(),$query->getBindings());
         /*== REQUEST ==*/
         if (isset($params->page) && $params->page) {
             return $query->paginate($params->take);
         } else {
-            $params->take ? $query->take($params->take) : false;//Take
+            isset($params->take) && $params->take ? $query->take($params->take) : false; //Take
+
             return $query->get();
         }
     }
@@ -70,37 +91,58 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
         $query = $this->model->query();
 
         /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
+        if (in_array('*', $params->include ?? [])) { //If Request all relationships
             $query->with([]);
         } else {//Especific relationships
-            $includeDefault = [];//Default relationships
-            if (isset($params->include))//merge relations with default relationships
-                $includeDefault = array_merge($includeDefault, $params->include);
-            $query->with($includeDefault);//Add Relationships to query
+            $includeDefault = []; //Default relationships
+            if (isset($params->include)) {//merge relations with default relationships
+                $includeDefault = array_merge($includeDefault, $params->include ?? []);
+            }
+            $query->with($includeDefault); //Add Relationships to query
         }
 
         /*== FILTER ==*/
         if (isset($params->filter)) {
             $filter = $params->filter;
 
-            if (isset($filter->field))//Filter by specific field
+            if (isset($filter->field)) {//Filter by specific field
                 $field = $filter->field;
+            }
+
+            // find translatable attributes
+            $translatedAttributes = $this->model->translatedAttributes;
+
+      // filter by translatable attributes
+            if (isset($field) && in_array($field, $translatedAttributes)) {//Filter by slug
+                $query->whereHas('translations', function ($query) use ($criteria, $filter, $field) {
+                    $query->where('locale', $filter->locale)
+                      ->where($field, $criteria);
+                });
+            } else {
+                // find by specific attribute or by id
+                $query->where($field ?? 'id', $criteria);
+            }
+
+            if (isset($filter->private)) {
+                $query->where('private', $filter->private);
+            }
         }
 
         /*== FIELDS ==*/
-        if (isset($params->fields) && count($params->fields))
+        if (isset($params->fields) && count($params->fields)) {
             $query->select($params->fields);
+        }
+
+        if (! isset($params->filter->field)) {
+            $query->where('id', $criteria);
+        }
 
         /*== REQUEST ==*/
-        return $query->where($field ?? 'id', $criteria)->first();
+        return $query->first();
     }
-
 
     /**
      * Find a resource by the given slug
-     *
-     * @param  string $slug
-     * @return object
      */
     public function findBySlug($slug)
     {
@@ -110,17 +152,16 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
             })->with('translations', 'parent', 'children', 'documents')->firstOrFail();
         }
 
-        return $this->model->where('slug', $slug)->with('translations', 'parent', 'children', 'documents')->first();;
+        return $this->model->where('slug', $slug)->with('translations', 'parent', 'children', 'documents')->first();
     }
 
     /**
      * Standard Api Method
-     * @param $data
+     *
      * @return mixed
      */
     public function create($data)
     {
-
         $category = $this->model->create($data);
 
         event(new CategoryWasCreated($category, $data));
@@ -130,8 +171,7 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
 
     /**
      * Update a resource
-     * @param $category
-     * @param  array $data
+     *
      * @return mixed
      */
     public function update($category, $data)
@@ -143,13 +183,10 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
         return $category;
     }
 
-
     public function destroy($model)
     {
         event(new CategoryWasDeleted($model->id, get_class($model)));
 
         return $model->delete();
     }
-
-
 }
