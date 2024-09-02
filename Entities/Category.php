@@ -9,12 +9,13 @@ use Modules\Media\Entities\File;
 use Modules\Media\Support\Traits\MediaRelation;
 use Kalnoy\Nestedset\NodeTrait;
 use Modules\Isite\Traits\RevisionableTrait;
+use Modules\Core\Icrud\Traits\HasCacheClearable;
 
 use Modules\Core\Support\Traits\AuditTrait;
 
 class Category extends Model
 {
-  use Translatable, MediaRelation, NamespacedEntity, NodeTrait, AuditTrait, RevisionableTrait;
+  use Translatable, MediaRelation, NamespacedEntity, NodeTrait, AuditTrait, RevisionableTrait, HasCacheClearable;
 
   public $transformer = 'Modules\Idocs\Transformers\CategoryTransformer';
   public $entity = 'Modules\Idocs\Entities\Category';
@@ -137,4 +138,15 @@ class Category extends Model
   {
     $this->setParentIdAttribute($value);
   }
+
+    public function getCacheClearableData()
+    {
+        return [
+            'urls' => [
+                config("app.url"),
+                $this->url
+            ],
+        ];
+    }
+
 }
