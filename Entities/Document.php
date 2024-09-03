@@ -5,6 +5,7 @@ namespace Modules\Idocs\Entities;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
+use Modules\Core\Icrud\Traits\HasCacheClearable;
 use Modules\Idocs\Presenters\DocumentPresenter;
 use Modules\Core\Traits\NamespacedEntity;
 use Modules\Iprofile\Entities\Department;
@@ -19,7 +20,8 @@ use Modules\Iqreable\Traits\IsQreable;
 
 class Document extends Model
 {
-  use Translatable, MediaRelation, NamespacedEntity, PresentableTrait, AuditTrait, RevisionableTrait, IsQreable;
+  use Translatable, MediaRelation, NamespacedEntity, PresentableTrait, AuditTrait, RevisionableTrait, IsQreable,
+      HasCacheClearable;
 
   public $transformer = 'Modules\Idocs\Transformers\DocumentTransformer';
   public $entity = 'Modules\Idocs\Entities\Document';
@@ -161,5 +163,15 @@ class Document extends Model
     return json_decode(json_encode($image));
 
   }
+
+    public function getCacheClearableData()
+    {
+        return [
+            'urls' => array_merge(
+                [config("app.url"),
+                    $this->url],
+                $this->categories->pluck('url')->toArray())
+        ];
+    }
 
 }
