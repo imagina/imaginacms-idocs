@@ -139,14 +139,16 @@ class Category extends Model
     $this->setParentIdAttribute($value);
   }
 
-    public function getCacheClearableData()
-    {
-        return [
-            'urls' => [
-                config("app.url"),
-                $this->url
-            ],
-        ];
+  public function getCacheClearableData()
+  {
+    $baseUrls = [config("app.url")];
+
+    if (!$this->wasRecentlyCreated) {
+      $baseUrls[] = $this->url;
     }
+    $urls = ['urls' => $baseUrls];
+
+    return $urls;
+  }
 
 }

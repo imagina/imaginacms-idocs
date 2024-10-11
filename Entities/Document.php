@@ -21,7 +21,7 @@ use Modules\Iqreable\Traits\IsQreable;
 class Document extends Model
 {
   use Translatable, MediaRelation, NamespacedEntity, PresentableTrait, AuditTrait, RevisionableTrait, IsQreable,
-      HasCacheClearable;
+    HasCacheClearable;
 
   public $transformer = 'Modules\Idocs\Transformers\DocumentTransformer';
   public $entity = 'Modules\Idocs\Entities\Document';
@@ -164,14 +164,17 @@ class Document extends Model
 
   }
 
-    public function getCacheClearableData()
-    {
-        return [
-            'urls' => array_merge(
-                [config("app.url"),
-                    $this->url],
-                $this->categories->pluck('url')->toArray())
-        ];
+  public function getCacheClearableData()
+  {
+    $baseUrls = [config("app.url")];
+    $categoryUrls = $this->categories->pluck('url')->toArray();
+
+    if (!$this->wasRecentlyCreated) {
+      $baseUrls[] = $this->url;
     }
+    $urls = ['urls' => array_merge($baseUrls, $categoryUrls)];
+
+    return $urls;
+  }
 
 }
