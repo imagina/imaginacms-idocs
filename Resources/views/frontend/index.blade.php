@@ -9,15 +9,25 @@
     {{trans('idocs::frontend.publicDocuments')}} | @parent
 @stop
 @section('content')
-    
-    <x-isite::breadcrumb>
-        <li class="breadcrumb-item active" aria-current="page"> {{trans('idocs::frontend.publicDocuments')}}</li>
-    </x-isite::breadcrumb>
-    
-    <div  id="publicDocumentsAll" class="container">
-        <div class="row">
+    <div  id="publicDocumentsAll">
+        <x-isite::breadcrumb>
+            <li class="breadcrumb-item active" aria-current="page"> {{trans('idocs::frontend.publicDocuments')}}</li>
+        </x-isite::breadcrumb>
+
+      <div class="container">
+          <div class="row">
             <div class="col-12">
-                <h1 class="docs-title h3">{{isset($category->id) ? $category->title : ''}}</h1>
+                <!--Translation  Title _ idocs::common.idocs.title -->
+                <h1 class="docs-title h3">{{isset($category->id)
+                         ? $category->title
+                         : trans("idocs::common.title.idocs")}}
+                </h1>
+
+                <!-- Translation Description _ idocs::common.idocs.description -->
+                <p class="docs-description">{!! isset($category->id)
+                       ? $category->description
+                        : trans("idocs::common.description.idocs") !!}
+                </p>
             </div>
             @if(isset($category->id))
             <div class="col-12">
@@ -53,9 +63,9 @@
                   :responsiveTopContent="['mobile' => false, 'desktop' => false]"
                 />
             </div>
-            
+          </div>
         </div>
-        
+
     </div>
-   
+
 @stop

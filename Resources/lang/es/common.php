@@ -4,6 +4,9 @@ return [
     'title' => [
         'idocs' => 'Documentos',
     ],
+  'description' => [
+    'idocs' => 'Aquí puedes encontrar y descargar los documentos disponibles.',
+  ],
     'button' => [
         'view more' => 'Ver más',
     ],
