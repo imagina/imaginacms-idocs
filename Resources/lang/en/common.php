@@ -4,6 +4,9 @@ return [
     'title' => [
         'idocs' => 'Documents',
     ],
+    'description' => [
+        'idocs' => 'Here you can find and download the available documents.',
+    ],
     'button' => [
         'view more' => 'View More',
     ],
