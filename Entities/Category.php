@@ -92,9 +92,13 @@ class Category extends Model
   public function getUrlAttribute()
   {
     if ($this->private) {
-      return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.index.private.category', [$this->slug]);
+      if (!empty($this->slug)) {
+        return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.index.private.category', [$this->slug]);
+      }
     } else {
-      return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.index.public.category', [$this->slug]);
+      if (!empty($this->slug)) {
+        return \URL::route(\LaravelLocalization::getCurrentLocale() . '.idocs.index.public.category', [$this->slug]);
+      }
     }
   }
 
