@@ -63,7 +63,7 @@
             @if(!isset($category))
               <div Id="TitleDocument" class="mb-4 mb-lg-5">
                 @php
-                  $settingTitleDocument = sjson_decode(etting("icustom::titleDocument"));
+                  $settingTitleDocument = json_decode(setting("icustom::titleDocument"));
                   $settingDescriptionDocument = json_decode(setting("icustom::descriptionDocument"));
                   $titleDocument = $settingTitleDocument['$titleDocument'] ?? trans('idocs::common.title.idocs');
                   $descriptionDocument = $settingDescriptionDocument['$descriptionDocument'] ?? trans('idocs::common.description.idocs');
