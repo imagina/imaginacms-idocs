@@ -61,16 +61,18 @@
         <div class="row">
           <div class="col-12">
             @if(!isset($category))
-              <div Id="TitleDocument">
+              <div Id="TitleDocument" class="mb-4 mb-lg-5">
                 @php
-                  $titleDocument = json_decode(setting("icustom::titleDocument"), true);
-                   $descriptionDocument = json_decode(setting("icustom::descriptionDocument"), true);
+                  $settingTitleDocument = json_decode(setting("icustom::titleDocument"));
+                  $settingDescriptionDocument = json_decode(setting("icustom::descriptionDocument"));
+                  $titleDocument = $settingTitleDocument['$titleDocument'] ?? trans('idocs::common.title.idocs');
+                  $descriptionDocument = $settingDescriptionDocument['$descriptionDocument'] ?? trans('idocs::common.description.idocs');
                 @endphp
                 <h1 class="title text-primary text-center">
-                  {!! $titleDocument['titleDocument'] !!}
+                  {!! $titleDocument ?? '' !!}
                 </h1>
                 <div class="subtitle text-primary text-center mx-auto">
-                  {!! $descriptionDocument['descriptionDocument'] !!}
+                  {!! $descriptionDocument ?? '' !!}
                 </div>
               </div>
             @endif
